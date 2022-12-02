@@ -15,4 +15,4 @@ setSize("small");
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-// const game = new Game(canvas);
+const game = new Game(canvas);

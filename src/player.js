@@ -6,7 +6,7 @@ export default class Player extends Actor {
             vel: {x: 0, y: 0}, 
             pos: pos, 
             r: 10, 
-            img: "./assets/0001.png",
+            img: "../assets/0001.png",
             health: 3,
             speed: 60
         });
