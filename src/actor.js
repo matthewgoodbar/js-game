@@ -1,12 +1,6 @@
 import Sprite from "./sprite.js";
 
-const states = {
-    "idle": ["attack", "hit", "move"],
-    "attack": ["idle", "hit"],
-    "hit": ["idle", "death"],
-    "move": ["idle", "attack", "hit"],
-    "death": []
-};
+
 
 export default class Actor extends Sprite {
     constructor({vel, pos, r, health, speed, img, dir, state}) {
@@ -22,42 +16,52 @@ export default class Actor extends Sprite {
         else {this.state = state;}
         this.stateLock = false;
         this.timeEnteredState = new Date();
+
+        this.states = {
+            "idle": ["attack", "hit", "moving"],
+            "attack": ["idle", "hit"],
+            "hit": ["idle", "death"],
+            "moving": ["idle", "attack", "hit"],
+            "death": []
+        };
     }
 
     tick() {
         switch(this.state) {
-            case "idle": this.idle();
-            case "attack": this.attack();
-            case "hit": this.hit();
-            case "move": this.move();
-            case "death": this.death();
+            case "idle": {this.idle(); break;}
+            case "attack": {this.attack(); break;}
+            case "hit": {this.hit(); break;}
+            case "moving": {this.moving(); break;}
+            case "death": {this.death(); break;}
         }
     }
 
     changeState(newState) {
-        if (this.states[this.state].includes(newState)) {
-            this.state = newState;
-            this.timeEnteredState = new Date();
+        if (!this.stateLock){
+            if (this.states[this.state].includes(newState)) {
+                this.state = newState;
+                this.timeEnteredState = new Date();
+            }
         }
     }
 
     idle() {
-        console.log("i am idle!");
+        console.log("please override idle()!");
     }
 
     attack() {
-
+        console.log("please override attack()!");
     }
 
     hit() {
-
+        console.log("please override hit()!");
     }
 
-    move() {
-
+    moving() {
+        console.log("please override moving()!");
     }
 
     death() {
-
+        console.log("please override death()!");
     }
 }

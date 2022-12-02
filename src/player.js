@@ -11,4 +11,38 @@ export default class Player extends Actor {
             speed: 100
         });
     }
+
+    tick() {
+        super.tick();
+    }
+
+    idle() {
+        this.stateLock = false;
+        console.log("i am idle!");
+    }
+
+    attack() {
+        let timeElapsed = Date.now() - this.timeEnteredState;
+        if (timeElapsed < 1000) {
+            this.stateLock = true;
+            console.log("attacking!");
+        } else {
+            this.stateLock = false;
+            this.changeState("idle");
+        }
+    }
+
+    hit() {
+
+    }
+
+    moving() {
+        this.stateLock = false;
+        // console.log(`now i'm moving in direction ${this.dir}!`);
+        console.log("now i'm moving!");
+    }
+
+    death() {
+
+    }
 }

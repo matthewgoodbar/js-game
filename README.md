@@ -13,7 +13,7 @@ In [working title], players will be able to: \
 
 *\*Technologies used\** \
 Canvas API\
-KeyMaster \(https://github.com/madrobby/keymaster\)
+KeyMaster https://github.com/madrobby/keymaster
 
 *\*Implementation Timeline\** \
 Thursday: Game loop, player movement\

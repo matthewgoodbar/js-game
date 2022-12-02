@@ -38,14 +38,27 @@ export default class Scene {
         // console.log(key.getPressedKeyCodes());
         let keyCodes = key.getPressedKeyCodes();
         this.processWasd(keyCodes);
+        if (keyCodes.includes(74)) { //74 = 'j'
+            this.player.changeState("attack");
+        }
     }
 
     processWasd(keyCodes) {
         let wasd = [87, 65, 83, 68];
         let reducedWasd = intersect(wasd, keyCodes).slice(0,2);
         let wasdSum = reducedWasd.reduce((acc, el) => {return acc + el}, 0);
+        if (wasdSum !== 0) this.player.dir = wasdSum;
         if (wasdSum === 133 || wasdSum === 170) wasdSum = 0;
-        this.cameraDir = wasdSum;
+        if (wasdSum === 0) {
+            this.player.changeState("idle");
+        } else {
+            this.player.changeState("moving");
+        }
+        if (this.player.state === "moving") {
+            this.cameraDir = wasdSum;
+        } else {
+            this.cameraDir = 0;
+        }
     }
 
     moveObjects(dt) {
@@ -78,8 +91,8 @@ export default class Scene {
     addObjects() {
         this.gameObjects.push(new Sprite({
             vel: {
-                x: 10,
-                y: 10
+                x: 0,
+                y: 0
             },
             pos: {
                 x: 100,

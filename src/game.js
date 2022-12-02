@@ -18,6 +18,7 @@ export default class Game {
         this.dt = (currentTime - this.prevTime) / 1000;
         this.prevTime = currentTime;
         this.scene.run(this.dt);
+        // console.log(this.dt);
         requestAnimationFrame(this.run);
     }
 }
