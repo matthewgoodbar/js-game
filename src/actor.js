@@ -46,22 +46,22 @@ export default class Actor extends Sprite {
     }
 
     idle() {
-        console.log("please override idle()!");
+        // console.log("please override idle()!");
     }
 
     attack() {
-        console.log("please override attack()!");
+        // console.log("please override attack()!");
     }
 
     hit() {
-        console.log("please override hit()!");
+        // console.log("please override hit()!");
     }
 
     moving() {
-        console.log("please override moving()!");
+        // console.log("please override moving()!");
     }
 
     death() {
-        console.log("please override death()!");
+        // console.log("please override death()!");
     }
 }

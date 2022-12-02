@@ -7,7 +7,7 @@ export default class Sprite {
         if (!r) { this.r = 20;}
         else {this.r = r;}
         this.img = img;
-        this.sprite = new Image();
+        this.sprite = new Image(); 
         this.sprite.src = this.img;
         if (img) {
             this.anchor = {

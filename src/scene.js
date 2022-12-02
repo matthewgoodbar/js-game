@@ -1,6 +1,7 @@
 import {intersect} from "./utils.js";
 import Player from "./player.js";
 import Sprite from "./sprite.js";
+import Actor from "./actor.js";
 
 export default class Scene {
     constructor(game) {
@@ -8,8 +9,10 @@ export default class Scene {
         this.ctx = this.game.ctx;
         this.center = game.center;
         this.cameraDir = 0;
+        this.backgroundStatic = [];
         this.gameObjects = [];
         this.player = new Player(this.center);
+        this.foregroundStatic = [];
         this.directionVectors = {
             87: {x: 0, y: 1}, //w
             65: {x: 1, y: 0}, //a
@@ -26,12 +29,33 @@ export default class Scene {
     
     run(dt) {
         // console.log(dt);
+        this.removeObjects();
+        this.tickStateMachines();
         this.player.tick();
         this.getInputs();
         this.moveObjects(dt);
         this.translateObjects(dt);
         this.checkCollisions();
         this.drawObjects(this.ctx);
+    }
+
+    removeObjects() {
+        let allRemoved = false;
+        while (!allRemoved) {
+            allRemoved = true;
+            this.gameObjects.forEach((go) => {
+                if (go.flagForDeletion) {
+                    allRemoved = false;
+                    this.gameObjects.remove(go);
+                    return;
+                }
+            })
+        }
+    }
+
+    tickStateMachines() {
+        this.player.tick();
+        this.gameObjects.forEach((go) => go.tick())
     }
 
     getInputs() {
@@ -68,7 +92,15 @@ export default class Scene {
     }
 
     translateObjects(dt) {
+        this.backgroundStatic.forEach((go) => {
+            go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
+            go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+        })
         this.gameObjects.forEach((go) => {
+            go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
+            go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+        })
+        this.foregroundStatic.forEach((go) => {
             go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
             go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
         })
@@ -79,17 +111,28 @@ export default class Scene {
     }
 
     drawObjects(ctx) {
+        //clear screen
         ctx.clearRect(0, 0, this.game.dimx, this.game.dimy);
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, this.game.dimx, this.game.dimy);
-        this.gameObjects.forEach((go) => {
+        //draw bg elements
+        this.backgroundStatic.forEach((go) => {
             go.draw(ctx);
         })
-        this.player.draw(ctx)
+        //draw actors based off y pos
+        let actors = [...this.gameObjects, this.player]; //actors = all game objects including player
+        actors = actors.sort((a,b) => (a.pos.y > b.pos.y) ? 1 : -1); //sort based off y-pos (it works, i checked)
+        for (let i = 0; i < actors.length; i++) { //loop thru actors, render furthest back FIRST
+            actors[i].draw(ctx);
+        }
+        //draw fg elements
+        this.foregroundStatic.forEach((go) => {
+            go.draw(ctx);
+        })
     }
 
     addObjects() {
-        this.gameObjects.push(new Sprite({
+        this.gameObjects.push(new Actor({
             vel: {
                 x: 0,
                 y: 0
@@ -100,7 +143,7 @@ export default class Scene {
             },
             r: 10
         }));
-        this.gameObjects.push(new Sprite({
+        this.gameObjects.push(new Actor({
             vel: {
                 x: 0,
                 y: 0
@@ -111,7 +154,7 @@ export default class Scene {
             },
             r: 15
         }));
-        this.gameObjects.push(new Sprite({
+        this.gameObjects.push(new Actor({
             vel: {
                 x: 0,
                 y: 0
@@ -121,6 +164,17 @@ export default class Scene {
                 y: 100
             },
             r: 4
+        }));
+        this.gameObjects.push(new Actor({
+            vel: {
+                x: 0,
+                y: 0
+            },
+            pos: {
+                x: this.game.dimx / 2,
+                y: this.game.dimy / 2 + 10
+            },
+            r: 20
         }));
     }
 }

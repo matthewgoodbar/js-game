@@ -18,14 +18,14 @@ export default class Player extends Actor {
 
     idle() {
         this.stateLock = false;
-        console.log("i am idle!");
+        // console.log("i am idle!");
     }
 
     attack() {
         let timeElapsed = Date.now() - this.timeEnteredState;
         if (timeElapsed < 1000) {
             this.stateLock = true;
-            console.log("attacking!");
+            // console.log("attacking!");
         } else {
             this.stateLock = false;
             this.changeState("idle");
@@ -39,7 +39,7 @@ export default class Player extends Actor {
     moving() {
         this.stateLock = false;
         // console.log(`now i'm moving in direction ${this.dir}!`);
-        console.log("now i'm moving!");
+        // console.log("now i'm moving!");
     }
 
     death() {
