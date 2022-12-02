@@ -9,11 +9,11 @@ In [working title], players will be able to: \
 -Attack enemies that infinitely spawn\
 -Can get hit by enemies, decreasing player health\
 -Pick up hearts from felled enemies, restoring health\
--Achieve a score based off time survived, enemies defeated\
+-Achieve a score based off time survived, enemies defeated
 
 *\*Technologies used\** \
 Canvas API\
-KeyMaster (https://github.com/madrobby/keymaster)\
+KeyMaster \(https://github.com/madrobby/keymaster\)
 
 *\*Implementation Timeline\** \
 Thursday: Game loop, player movement\
@@ -22,5 +22,5 @@ Weekend: Adding sprites, State animations, Art assets\
 Monday: Attacks, Hitbox spawning\
 Tuesday: Background sprites, Arena boundaries\
 Wednesday: Score system, Game over state, Game restarting\
-Thursday: Deploy to github\
+Thursday: Deploy to github
 
