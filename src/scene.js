@@ -26,6 +26,7 @@ export default class Scene {
     
     run(dt) {
         // console.log(dt);
+        this.player.tick();
         this.getInputs();
         this.moveObjects(dt);
         this.translateObjects(dt);

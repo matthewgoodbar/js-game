@@ -5,10 +5,10 @@ export default class Player extends Actor {
         super({
             vel: {x: 0, y: 0}, 
             pos: pos, 
-            r: 10, 
+            r: 40, 
             img: "../assets/0001.png",
             health: 3,
-            speed: 60
+            speed: 100
         });
     }
 }
