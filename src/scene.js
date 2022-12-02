@@ -30,7 +30,7 @@ export default class Scene {
         this.moveObjects(dt);
         this.translateObjects(dt);
         this.checkCollisions();
-        this.drawObjects();
+        this.drawObjects(this.ctx);
     }
 
     getInputs() {
@@ -64,21 +64,21 @@ export default class Scene {
 
     }
 
-    drawObjects() {
-        this.ctx.clearRect(0, 0, this.game.dimx, this.game.dimy);
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0, 0, this.game.dimx, this.game.dimy);
+    drawObjects(ctx) {
+        ctx.clearRect(0, 0, this.game.dimx, this.game.dimy);
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, this.game.dimx, this.game.dimy);
         this.gameObjects.forEach((go) => {
-            go.draw(this.ctx);
+            go.draw(ctx);
         })
-        this.player.draw(this.ctx)
+        this.player.draw(ctx)
     }
 
     addObjects() {
         this.gameObjects.push(new Sprite({
             vel: {
-                x: 0,
-                y: 0
+                x: 10,
+                y: 10
             },
             pos: {
                 x: 100,
