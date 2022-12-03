@@ -8,3 +8,10 @@ export const intersect = (arr1, arr2) => {
     let res = new Set([...set1].filter(i => set2.has(i)));
     return Array.from(res);
 };
+
+export const scaleVector = (vector, c) => {
+    return {
+        x: vector.x * c,
+        y: vector.y * c
+    }
+};

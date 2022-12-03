@@ -11,7 +11,8 @@ export default class Scene {
         this.cameraDir = 0;
         this.backgroundStatic = [];
         this.gameObjects = [];
-        this.player = new Player(this.center);
+        this.hitboxes = [];
+        this.player = new Player(this.center, this);
         this.foregroundStatic = [];
         this.directionVectors = {
             87: {x: 0, y: 1}, //w
@@ -29,28 +30,29 @@ export default class Scene {
     
     run(dt) {
         // console.log(dt);
-        this.removeObjects();
         this.tickStateMachines();
-        this.player.tick();
         this.getInputs();
         this.moveObjects(dt);
         this.translateObjects(dt);
         this.checkCollisions();
         this.drawObjects(this.ctx);
+        this.drawHitboxes(this.ctx);
     }
 
-    removeObjects() {
-        let allRemoved = false;
-        while (!allRemoved) {
-            allRemoved = true;
-            this.gameObjects.forEach((go) => {
-                if (go.flagForDeletion) {
-                    allRemoved = false;
-                    this.gameObjects.remove(go);
-                    return;
-                }
-            })
-        }
+    addGameObject(obj) {
+        if (!this.gameObjects.includes(obj)) this.gameObjects.push(obj);
+    }
+
+    removeGameObject(obj) {
+        this.gameObjects.splice(this.gameObjects.indexOf(obj), 1);
+    }
+
+    addHitbox(hb) {
+        if (!this.hitboxes.includes(hb)) this.hitboxes.push(hb);
+    }
+
+    removeHitbox(hb) {
+        this.hitboxes.splice(this.hitboxes.indexOf(hb), 1);
     }
 
     tickStateMachines() {
@@ -128,6 +130,12 @@ export default class Scene {
         //draw fg elements
         this.foregroundStatic.forEach((go) => {
             go.draw(ctx);
+        })
+    }
+
+    drawHitboxes(ctx) {
+        this.hitboxes.forEach((hb) => {
+            hb.draw(ctx);
         })
     }
 

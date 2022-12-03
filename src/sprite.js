@@ -19,7 +19,7 @@ export default class Sprite {
 
     draw(ctx) {
         if (!this.img) {
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "green";
             ctx.beginPath();
             ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
             ctx.fill();

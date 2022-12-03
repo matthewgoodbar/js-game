@@ -1,7 +1,9 @@
 import Actor from './actor.js';
+import Hitbox from './hitbox.js';
+import { scaleVector } from './utils.js';
 
 export default class Player extends Actor {
-    constructor(pos) {
+    constructor(pos, scene) {
         super({
             vel: {x: 0, y: 0}, 
             pos: pos, 
@@ -10,10 +12,13 @@ export default class Player extends Actor {
             health: 3,
             speed: 100
         });
+        this.scene = scene;
+        this.hitbox = undefined;
     }
 
     tick() {
         super.tick();
+        // console.log(this.dir);
     }
 
     idle() {
@@ -23,10 +28,19 @@ export default class Player extends Actor {
 
     attack() {
         let timeElapsed = Date.now() - this.timeEnteredState;
-        if (timeElapsed < 1000) {
-            this.stateLock = true;
+        this.stateLock = true;
+        if (timeElapsed < 400) {
             // console.log("attacking!");
+        } else if (timeElapsed < 800) {
+            if (!this.hitbox) {
+                this.hitbox = this.createHitbox();
+                this.scene.addHitbox(this.hitbox);
+            }
         } else {
+            if (this.hitbox) {
+                this.scene.removeHitbox(this.hitbox);
+                this.hitbox = undefined;
+            }
             this.stateLock = false;
             this.changeState("idle");
         }
@@ -44,5 +58,19 @@ export default class Player extends Actor {
 
     death() {
 
+    }
+
+    createHitbox() {
+        let hbPos = scaleVector(this.scene.directionVectors[this.dir], this.r);
+        hbPos = scaleVector(hbPos, -1);
+        let hitbox = new Hitbox({ 
+            pos: {
+                x: this.pos.x + hbPos.x,
+                y: this.pos.y + hbPos.y
+            },
+            r: this.r,
+            owner: this
+        });
+        return hitbox;
     }
 }
