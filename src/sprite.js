@@ -7,12 +7,12 @@ export default class Sprite {
         if (!r) { this.r = 20;}
         else {this.r = r;}
         this.img = img;
-        this.sprite = new Image(); 
-        this.sprite.src = this.img;
+        // this.sprite = new Image(); 
+        // this.sprite.src = this.img;
         if (img) {
             this.anchor = {
-                x: this.pos.x - (this.sprite.width / 2),
-                y: this.pos.y - (this.sprite.height / 2)
+                x: this.pos.x - (this.img.width / 2),
+                y: this.pos.y - (this.img.height / 2)
             };
         }
     }
@@ -28,7 +28,7 @@ export default class Sprite {
             ctx.beginPath();
             ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
             ctx.fill();
-            ctx.drawImage(this.sprite, this.anchor.x, this.anchor.y);
+            ctx.drawImage(this.img, this.anchor.x, this.anchor.y);
         }
     }
 

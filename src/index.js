@@ -1,4 +1,5 @@
 import Game from "./game.js";
+import { loadAssets } from "./assets.js";
 
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext('2d');
@@ -15,4 +16,8 @@ setSize("small");
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-const game = new Game(canvas);
+(async () => {
+    await loadAssets(["../assets/0001.png","../assets/0002.png","../assets/0003.png","../assets/0004.png",
+        "../assets/0005.png","../assets/0006.png","../assets/0007.png","../assets/0008.png"]);
+    const game = new Game(canvas);
+})();

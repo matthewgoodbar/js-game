@@ -8,7 +8,7 @@ export default class Player extends Actor {
             vel: {x: 0, y: 0}, 
             pos: pos, 
             r: 40, 
-            img: "../assets/0001.png",
+            img: sprites[0],
             health: 3,
             speed: 100
         });
@@ -19,6 +19,7 @@ export default class Player extends Actor {
     tick() {
         super.tick();
         // console.log(this.dir);
+        this.updateDirection(this.dir);
     }
 
     idle() {
@@ -57,6 +58,19 @@ export default class Player extends Actor {
 
     death() {
 
+    }
+
+    updateDirection(dir) {
+        switch (dir) {
+            case 148: {this.img = sprites[0]; break;}
+            case 65: {this.img = sprites[1]; break;}
+            case 152: {this.img = sprites[2]; break;}
+            case 87: {this.img = sprites[3]; break;}
+            case 155: {this.img = sprites[4]; break;}
+            case 68: {this.img = sprites[5]; break;}
+            case 151: {this.img = sprites[6]; break;}
+            case 83: {this.img = sprites[7]; break;}
+        }
     }
 
     createHitbox() {
