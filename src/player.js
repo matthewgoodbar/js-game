@@ -30,17 +30,16 @@ export default class Player extends Actor {
         let timeElapsed = Date.now() - this.timeEnteredState;
         this.stateLock = true;
         if (timeElapsed < 400) {
-            // console.log("attacking!");
-        } else if (timeElapsed < 800) {
             if (!this.hitbox) {
                 this.hitbox = this.createHitbox();
                 this.scene.addHitbox(this.hitbox);
             }
-        } else {
+        } else if (timeElapsed < 800) {
             if (this.hitbox) {
                 this.scene.removeHitbox(this.hitbox);
                 this.hitbox = undefined;
             }
+        } else {
             this.stateLock = false;
             this.changeState("idle");
         }
@@ -68,8 +67,9 @@ export default class Player extends Actor {
                 x: this.pos.x + hbPos.x,
                 y: this.pos.y + hbPos.y
             },
-            r: this.r,
-            owner: this
+            r: this.r * 1.2,
+            owner: this,
+            dir: this.dir
         });
         return hitbox;
     }
