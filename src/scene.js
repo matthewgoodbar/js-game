@@ -73,8 +73,8 @@ export default class Scene {
         let wasd = [87, 65, 83, 68];
         let reducedWasd = intersect(wasd, keyCodes).slice(0,2);
         let wasdSum = reducedWasd.reduce((acc, el) => {return acc + el}, 0);
-        if (wasdSum !== 0) this.player.dir = wasdSum;
         if (wasdSum === 133 || wasdSum === 170) wasdSum = 0;
+        if (wasdSum !== 0 && !this.player.stateLock) this.player.dir = wasdSum;
         if (wasdSum === 0) {
             this.player.changeState("idle");
         } else {
