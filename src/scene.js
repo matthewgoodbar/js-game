@@ -124,7 +124,7 @@ export default class Scene {
         })
         //draw actors based off y pos
         let actors = [...this.gameObjects, this.player]; //actors = all game objects including player
-        actors = actors.sort((a,b) => (a.pos.y > b.pos.y) ? 1 : -1); //sort based off y-pos (it works, i checked)
+        actors = actors.sort((a,b) => (a.pos.y > b.pos.y) ? 1 : -1); //sort based off y-pos
         for (let i = 0; i < actors.length; i++) { //loop thru actors, render furthest back FIRST
             actors[i].draw(ctx);
         }
@@ -141,48 +141,27 @@ export default class Scene {
     }
 
     addBackgroundStatic() {
-        let initialPos = {x:this.game.xdim / 2, y: 0};
+        let initialPos = {x:this.game.dimx / 2, y: 0};
         let offset = {x:100,y:57};
+        let rowStart = {x:initialPos.x, y:initialPos.y};
         for (let i = 0; i < 10; i++) {
-            let rowOffsetFactor = scaleVector(offset, i);
-            let rowStart = {x:initialPos.x - rowOffsetFactor.x, y:initialPos.y + rowOffsetFactor.y}
+            let column = {x:rowStart.x, y:rowStart.y};
             for (let j = 0; j < 10; j++) {
-                let columnOffsetFactor = scaleVector(offset, j);
                 let tile = new Sprite({
                     pos: {
-                        x: rowStart.x + columnOffsetFactor.x,
-                        y: rowStart.y + columnOffsetFactor.y
+                        x: column.x,
+                        y: column.y
                     },
                     img: bgSprites['ground1']
                 });
-                console.log('sprite pushed')
+                console.log(tile);
                 this.backgroundStatic.push(tile);
+                column.x += 100;
+                column.y += 57;
             }
+            rowStart.x -= 100;
+            rowStart.y += 57;
         }
-        this.backgroundStatic.push(new Sprite({
-            vel: {
-                x: 0,
-                y: 0
-            },
-            pos: {
-                x: 100,
-                y: 100
-            },
-            r: 0,
-            img: bgSprites['ground1']
-        }));
-        this.backgroundStatic.push(new Sprite({
-            vel: {
-                x: 0,
-                y: 0
-            },
-            pos: {
-                x: 200,
-                y: 157
-            },
-            r: 0,
-            img: bgSprites['ground1']
-        }));
     }
 
     addObjects() {
