@@ -24,10 +24,10 @@ export default class Sprite {
             ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
             ctx.fill();
         } else {
-            ctx.fillStyle = "blue";
-            ctx.beginPath();
-            ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-            ctx.fill();
+            // ctx.fillStyle = "blue";
+            // ctx.beginPath();
+            // ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
+            // ctx.fill();
             ctx.drawImage(this.img, this.anchor.x, this.anchor.y);
         }
     }
