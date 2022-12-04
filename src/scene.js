@@ -36,7 +36,7 @@ export default class Scene {
         this.translateObjects(dt);
         this.checkCollisions();
         this.drawObjects(this.ctx);
-        this.drawHitboxes(this.ctx);
+        // this.drawHitboxes(this.ctx);
     }
 
     addGameObject(obj) {

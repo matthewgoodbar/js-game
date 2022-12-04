@@ -8,9 +8,9 @@ export default class Player extends Actor {
             vel: {x: 0, y: 0}, 
             pos: pos, 
             r: 40, 
-            img: sprites[0],
+            img: playerSprites[148]['idle'],
             health: 3,
-            speed: 100
+            speed: 200
         });
         this.scene = scene;
         this.hitbox = undefined;
@@ -19,23 +19,28 @@ export default class Player extends Actor {
     tick() {
         super.tick();
         // console.log(this.dir);
-        this.updateDirection(this.dir);
+        // this.updateDirection(this.dir);
     }
 
     idle() {
         this.stateLock = false;
         // console.log("i am idle!");
+        this.setSprite('idle');
     }
 
     attack() {
         let timeElapsed = Date.now() - this.timeEnteredState;
         this.stateLock = true;
-        if (timeElapsed < 400) {
+        if (timeElapsed < 200) {
+            this.setSprite('attack_1');
             if (!this.hitbox) {
                 this.hitbox = this.createHitbox();
                 this.scene.addHitbox(this.hitbox);
             }
-        } else if (timeElapsed < 800) {
+        } else if (timeElapsed < 300) {
+            this.setSprite('attack_2');
+        } else if (timeElapsed < 400) {
+            this.setSprite('attack_3')
             if (this.hitbox) {
                 this.scene.removeHitbox(this.hitbox);
                 this.hitbox = undefined;
@@ -52,25 +57,25 @@ export default class Player extends Actor {
 
     moving() {
         this.stateLock = false;
-        // console.log(`now i'm moving in direction ${this.dir}!`);
-        // console.log("now i'm moving!");
+        let timeElapsed = (Date.now() - this.timeEnteredState) % 800;
+        if (timeElapsed < 200) {
+            this.setSprite('move_1');
+        } else if (timeElapsed < 400) {
+            this.setSprite('move_2');
+        } else if (timeElapsed < 600) {
+            this.setSprite('move_3');
+        } else {
+            this.setSprite('move_4');
+        }
     }
 
     death() {
 
     }
 
-    updateDirection(dir) {
-        switch (dir) {
-            case 148: {this.img = sprites[0]; break;}
-            case 65: {this.img = sprites[1]; break;}
-            case 152: {this.img = sprites[2]; break;}
-            case 87: {this.img = sprites[3]; break;}
-            case 155: {this.img = sprites[4]; break;}
-            case 68: {this.img = sprites[5]; break;}
-            case 151: {this.img = sprites[6]; break;}
-            case 83: {this.img = sprites[7]; break;}
-        }
+    setSprite(frame) {
+        this.img = playerSprites[this.dir][frame];
+        // console.log(playerSprites[this.dir][frame]);
     }
 
     createHitbox() {

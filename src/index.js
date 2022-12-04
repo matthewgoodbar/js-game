@@ -17,7 +17,6 @@ ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 (async () => {
-    await loadAssets(["../assets/0001.png","../assets/0002.png","../assets/0003.png","../assets/0004.png",
-        "../assets/0005.png","../assets/0006.png","../assets/0007.png","../assets/0008.png"]);
+    await loadAssets();
     const game = new Game(canvas);
 })();
