@@ -1,4 +1,4 @@
-import {intersect} from "./utils.js";
+import {intersect, scaleVector} from "./utils.js";
 import Player from "./player.js";
 import Sprite from "./sprite.js";
 import Actor from "./actor.js";
@@ -26,6 +26,7 @@ export default class Scene {
             0: {x: 0, y: 0}
         };
         this.addObjects();
+        this.addBackgroundStatic();
     }
     
     run(dt) {
@@ -94,17 +95,17 @@ export default class Scene {
     }
 
     translateObjects(dt) {
-        this.backgroundStatic.forEach((go) => {
-            go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
-            go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+        this.backgroundStatic.forEach((bg) => {
+            bg.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
+            bg.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
         })
         this.gameObjects.forEach((go) => {
             go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
             go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
         })
-        this.foregroundStatic.forEach((go) => {
-            go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
-            go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+        this.foregroundStatic.forEach((fg) => {
+            fg.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
+            fg.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
         })
     }
 
@@ -137,6 +138,51 @@ export default class Scene {
         this.hitboxes.forEach((hb) => {
             hb.draw(ctx);
         })
+    }
+
+    addBackgroundStatic() {
+        let initialPos = {x:this.game.xdim / 2, y: 0};
+        let offset = {x:100,y:57};
+        for (let i = 0; i < 10; i++) {
+            let rowOffsetFactor = scaleVector(offset, i);
+            let rowStart = {x:initialPos.x - rowOffsetFactor.x, y:initialPos.y + rowOffsetFactor.y}
+            for (let j = 0; j < 10; j++) {
+                let columnOffsetFactor = scaleVector(offset, j);
+                let tile = new Sprite({
+                    pos: {
+                        x: rowStart.x + columnOffsetFactor.x,
+                        y: rowStart.y + columnOffsetFactor.y
+                    },
+                    img: bgSprites['ground1']
+                });
+                console.log('sprite pushed')
+                this.backgroundStatic.push(tile);
+            }
+        }
+        this.backgroundStatic.push(new Sprite({
+            vel: {
+                x: 0,
+                y: 0
+            },
+            pos: {
+                x: 100,
+                y: 100
+            },
+            r: 0,
+            img: bgSprites['ground1']
+        }));
+        this.backgroundStatic.push(new Sprite({
+            vel: {
+                x: 0,
+                y: 0
+            },
+            pos: {
+                x: 200,
+                y: 157
+            },
+            r: 0,
+            img: bgSprites['ground1']
+        }));
     }
 
     addObjects() {
