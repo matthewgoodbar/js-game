@@ -1,4 +1,4 @@
-import {intersect, scaleVector, dist} from "./utils.js";
+import {intersect, scaleVector, dist, dirToVector} from "./utils.js";
 import Sprite from "./sprite.js";
 import Actor from "./actor.js";
 import Enemy from "./enemy.js";
@@ -15,28 +15,7 @@ export default class Scene {
         this.hitboxes = [];
         this.player = new Player(this.center, this);
         this.foregroundStatic = [];
-        // this.directionVectors = { //Octagonal
-        //     87: {x: 0, y: 1}, //w
-        //     65: {x: 1, y: 0}, //a
-        //     83: {x: 0, y: -1}, //s
-        //     68: {x: -1, y: 0}, //d
-        //     155: {x: -0.707, y: 0.707}, //wd
-        //     152: {x: 0.707, y: 0.707}, //wa
-        //     151: {x: -0.707, y: -0.707}, //sd
-        //     148: {x: 0.707, y: -0.707}, //sa
-        //     0: {x: 0, y: 0}
-        // };
-        this.directionVectors = { //Isometric-accurate
-            87: {x: 0, y: 1}, //w
-            65: {x: 1, y: 0}, //a
-            83: {x: 0, y: -1}, //s
-            68: {x: -1, y: 0}, //d
-            155: {x: -0.866, y: 0.5}, //wd
-            152: {x: 0.866, y: 0.5}, //wa
-            151: {x: -0.866, y: -0.5}, //sd
-            148: {x: 0.866, y: -0.5}, //sa
-            0: {x: 0, y: 0}
-        };
+
         this.addObjects();
         this.addBackgroundStatic();
     }
@@ -109,16 +88,16 @@ export default class Scene {
 
     translateObjects(dt) {
         this.backgroundStatic.forEach((bg) => {
-            bg.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
-            bg.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+            bg.pos.x += dirToVector(this.cameraDir).x * this.player.speed * dt;
+            bg.pos.y += dirToVector(this.cameraDir).y * this.player.speed * dt;
         })
         this.gameObjects.forEach((go) => {
-            go.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
-            go.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+            go.pos.x += dirToVector(this.cameraDir).x * this.player.speed * dt;
+            go.pos.y += dirToVector(this.cameraDir).y * this.player.speed * dt;
         })
         this.foregroundStatic.forEach((fg) => {
-            fg.pos.x += this.directionVectors[this.cameraDir].x * this.player.speed * dt;
-            fg.pos.y += this.directionVectors[this.cameraDir].y * this.player.speed * dt;
+            fg.pos.x += dirToVector(this.cameraDir).x * this.player.speed * dt;
+            fg.pos.y += dirToVector(this.cameraDir).y * this.player.speed * dt;
         })
     }
 

@@ -1,5 +1,9 @@
 export const norm = (vector) => {
-
+    let mag = dist(vector, {x:0,y:0});
+    return {
+        x: vector.x / mag,
+        y: vector.y / mag
+    }
 };
 
 export const intersect = (arr1, arr2) => {

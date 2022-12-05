@@ -1,6 +1,6 @@
 import Actor from './actor.js';
 import Hitbox from './hitbox.js';
-import { scaleVector } from './utils.js';
+import { scaleVector, dirToVector } from './utils.js';
 
 export default class Player extends Actor {
     constructor(pos, scene) {
@@ -81,7 +81,7 @@ export default class Player extends Actor {
 
     createHitbox() {
         let hbr = this.r * 1.2;
-        let hbPos = scaleVector(this.scene.directionVectors[this.dir], hbr + this.r + 4);
+        let hbPos = scaleVector(dirToVector(this.dir), hbr + this.r + 4);
         hbPos = scaleVector(hbPos, -1);
         let hitbox = new Hitbox({ 
             pos: {

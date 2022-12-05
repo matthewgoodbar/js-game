@@ -33,7 +33,6 @@ export default class Actor extends Sprite {
         switch(this.state) {
             case "idle": {this.idle(); break;}
             case "attack": {this.attack(); break;}
-            // case "hit": {this.hit(); break;}
             case "moving": {this.moving(); break;}
             case "death": {this.death(); break;}
         }
