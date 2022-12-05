@@ -14,9 +14,9 @@ export default class Enemy extends Actor {
         this.scene = scene;
     }
 
-    tick() {
-        super.tick();
-        if (this.hitBy) this._hit();
+    tick(dt) {
+        // this.vel = {x:20, y:0};
+        super.tick(dt);
     }
 
     

@@ -43,10 +43,11 @@ export default class Scene {
     
     run(dt) {
         // console.log(dt);
-        this.tickStateMachines();
+        this.tickStateMachines(dt);
         this.getInputs();
         this.moveObjects(dt);
         this.translateObjects(dt);
+        this.hitDetection();
         this.checkCollisions();
         this.drawObjects(this.ctx);
         // this.drawHitboxes(this.ctx);
@@ -68,9 +69,9 @@ export default class Scene {
         this.hitboxes.splice(this.hitboxes.indexOf(hb), 1);
     }
 
-    tickStateMachines() {
-        this.player.tick();
-        this.gameObjects.forEach((go) => go.tick())
+    tickStateMachines(dt) {
+        this.player.tick(dt);
+        this.gameObjects.forEach((go) => go.tick(dt))
     }
 
     getInputs() {
@@ -121,7 +122,7 @@ export default class Scene {
         })
     }
 
-    checkCollisions() {
+    hitDetection() {
         this.gameObjects.forEach((go) => {
             this.hitboxes.forEach((hb) => {
                 if (dist(go.pos, hb.pos) < go.r + hb.r) {
@@ -129,6 +130,10 @@ export default class Scene {
                 }
             })
         })
+    }
+
+    checkCollisions() {
+
     }
 
     drawObjects(ctx) {
@@ -168,7 +173,7 @@ export default class Scene {
                 let tile = new Sprite({
                     pos: {
                         x: column.x,
-                        y: column.y
+                        y: column.y + (Math.random() * 20)
                     },
                     img: bgSprites['ground1']
                 });
@@ -189,6 +194,5 @@ export default class Scene {
             },
             this
         ));
-        console.log(this.gameObjects);
     }
 }

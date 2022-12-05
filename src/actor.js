@@ -29,7 +29,7 @@ export default class Actor extends Sprite {
         };
     }
 
-    tick() {
+    tick(dt) {
         switch(this.state) {
             case "idle": {this.idle(); break;}
             case "attack": {this.attack(); break;}
@@ -37,7 +37,7 @@ export default class Actor extends Sprite {
             case "moving": {this.moving(); break;}
             case "death": {this.death(); break;}
         }
-        if (this.hitBy) this._hit();
+        if (this.hitBy) this._hit(dt);
     }
 
     changeState(newState) {
@@ -72,19 +72,20 @@ export default class Actor extends Sprite {
         }
     }
 
-    _hit() {
+    _hit(dt) {
         let timeElapsed = Date.now() - this.timeHit;
         if (timeElapsed < 400) {
-            this.pushBack(400 - timeElapsed);
+            this.pushBack(400 - timeElapsed, dt);
         } else {
+            this.vel = {x:0,y:0}; 
             this.hitBy = undefined;
         }
     }
 
-    pushBack(factor) {
+    pushBack(factor, dt) {
         let pushVector = dirToVector(this.hitBy.dir);
         pushVector = scaleVector(pushVector, -1);
-        this.vel.x = pushVector.x * factor;
-        this.vel.y = pushVector.y * factor;
+        this.pos.x += pushVector.x * factor * dt;
+        this.pos.y += pushVector.y * factor * dt;
     }
 }

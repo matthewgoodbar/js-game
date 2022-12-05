@@ -17,8 +17,8 @@ export default class Player extends Actor {
         this.hitBy = undefined;
     }
 
-    tick() {
-        super.tick();
+    tick(dt) {
+        super.tick(dt);
         // console.log(this.dir);
         // this.updateDirection(this.dir);
     }
