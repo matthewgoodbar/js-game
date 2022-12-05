@@ -10,7 +10,7 @@ export const loadAssets = async () => {
 const loadBackgroundSprites = async () => {
     let path = '../assets/background';
     let names = [
-        'ground1'
+        'ground1', 'archway1', 'wall1'
     ];
     names.forEach((name) => {
         let img = new Image();

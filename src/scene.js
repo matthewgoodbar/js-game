@@ -143,10 +143,55 @@ export default class Scene {
     }
 
     addBackgroundStatic() {
-        let initialPos = {x:this.game.dimx / 2, y: 0};
-        let offset = {x:100,y:57};
+        let offset = {x:100,y:57}; //Proper spacing between tiles
+        let wallStart = {x:this.game.dimx / 2, y: offset.y * -2}; //Start point for wall tiles
+        let rightWall = {x:wallStart.x, y:wallStart.y};
+        for (let i = 0; i < 11; i++) { //Render right side wall
+            let randomJitter = (Math.random() * 20);
+            let wall = new Sprite({
+                pos: {
+                    x: rightWall.x,
+                    y: rightWall.y + randomJitter
+                },
+                img: bgSprites['wall1']
+            });
+            this.backgroundStatic.push(wall); //lower level
+            wall = new Sprite({
+                pos: {
+                    x: rightWall.x,
+                    y: rightWall.y - 128 + randomJitter
+                },
+                img: bgSprites['wall1']
+            });
+            this.backgroundStatic.push(wall); //upper level
+            rightWall.x += offset.x;
+            rightWall.y += offset.y;
+        }
+        let leftWall = {x:wallStart.x - offset.x, y:wallStart.y + offset.y};
+        for (let i = 0; i < 10; i++) { //Render left side wall
+            let randomJitter = (Math.random() * 20);
+            let wall = new Sprite({
+                pos: {
+                    x: leftWall.x,
+                    y: leftWall.y + randomJitter
+                },
+                img: bgSprites['wall1']
+            });
+            this.backgroundStatic.push(wall); //lower level
+            wall = new Sprite({
+                pos: {
+                    x: leftWall.x,
+                    y: leftWall.y - 128 + randomJitter
+                },
+                img: bgSprites['wall1']
+            });
+            this.backgroundStatic.push(wall); //upper level
+            leftWall.x -= offset.x;
+            leftWall.y += offset.y;
+        }
+        let initialPos = {x:this.game.dimx / 2, y: 0}; //Start point for floor tiles
         let rowStart = {x:initialPos.x, y:initialPos.y};
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) { //Render floor tiles
             let column = {x:rowStart.x, y:rowStart.y};
             for (let j = 0; j < 10; j++) {
                 let tile = new Sprite({
