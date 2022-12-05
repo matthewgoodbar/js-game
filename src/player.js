@@ -1,6 +1,6 @@
 import Actor from './actor.js';
 import Hitbox from './hitbox.js';
-import { scaleVector, dirToVector } from './utils.js';
+import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
 
 export default class Player extends Actor {
     constructor(pos, scene) {
@@ -10,17 +10,16 @@ export default class Player extends Actor {
             r: 40, 
             img: playerSprites[148]['idle'],
             health: 3,
-            speed: 200
+            speed: 300
         });
         this.scene = scene;
         this.hitbox = undefined;
         this.hitBy = undefined;
+        this.unscaledSpeed = this.speed;
     }
 
     tick(dt) {
         super.tick(dt);
-        // console.log(this.dir);
-        // this.updateDirection(this.dir);
     }
 
     idle() {
@@ -57,6 +56,7 @@ export default class Player extends Actor {
     }
 
     moving() {
+        this.speed = this.unscaledSpeed * dirScaleFactor(this.dir);
         this.stateLock = false;
         let timeElapsed = (Date.now() - this.timeEnteredState) % 800;
         if (timeElapsed < 200) {

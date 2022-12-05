@@ -29,7 +29,7 @@ export default class Scene {
         this.hitDetection();
         this.checkCollisions();
         this.drawObjects(this.ctx);
-        // this.drawHitboxes(this.ctx);
+        this.drawHitboxes(this.ctx);
     }
 
     addGameObject(obj) {
@@ -104,10 +104,15 @@ export default class Scene {
     hitDetection() {
         this.gameObjects.forEach((go) => {
             this.hitboxes.forEach((hb) => {
-                if (dist(go.pos, hb.pos) < go.r + hb.r) {
+                if (dist(go.pos, hb.pos) < go.r + hb.r && hb.owner === this.player) {
                     go.hit(hb);
                 }
             })
+        })
+        this.hitboxes.forEach((hb) => {
+            if (dist(this.player.pos, hb.pos) < this.player.r + hb.r && hb.owner !== this.player){
+                this.player.hit(hb);
+            }
         })
     }
 

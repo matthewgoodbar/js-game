@@ -1,5 +1,11 @@
-import { dirToVector, scaleVector, norm, dot } from './utils.js';
+import { dirToVector, scaleVector, norm, dot, dirScaleFactor, dist } from './utils.js';
 import Actor from './actor.js';
+
+const CONST = {
+    "SPEED": 60,
+    "HEALTH": 3,
+    "AGGRO": 100
+}
 
 export default class Enemy extends Actor {
     constructor(pos, scene) {
@@ -13,13 +19,41 @@ export default class Enemy extends Actor {
             state: "moving"
         })
         this.scene = scene;
+        this.absoluteSpeed = this.speed;
     }
-
+    
     tick(dt) {
         // this.vel = {x:20, y:0};
+        if (this.health <= 0) this.changeState("death");
         super.tick(dt);
     }
 
+    idle() {
+        if (dist(this.scene.player.pos, this.pos) < CONST["AGGRO"]) {
+            this.changeState("attack");
+        } else {
+            this.changeState("moving");
+        }
+    }
+
+    attack() {
+        this.stateLock = true;
+        this.vel = {x:0, y:0};
+        let timeElapsed = Date.now() - this.timeEnteredState;
+        if (timeElapsed < 400) {
+            console.log("i'm attacking!");
+        } else {
+            this.stateLock = false;
+            this.changeState("idle");
+        }
+
+    }
+
+    death() {
+        console.log("i am dead...");
+        this.color = "black";
+    }
+    
     moving() {
         let player = this.scene.player;
         let moveDir = norm({
@@ -28,13 +62,18 @@ export default class Enemy extends Actor {
         });
         let unitNorth = {x:0, y:-1};
         let angle = dot(moveDir, unitNorth);
-        this.getDirFromAngle(angle, moveDir.x);
+        this._getDirFromAngle(angle, moveDir.x);
         let dirVector = scaleVector(dirToVector(this.dir), -1);
+        this.speed = this.absoluteSpeed * dirScaleFactor(this.dir);
         this.vel.x = dirVector.x * this.speed;
         this.vel.y = dirVector.y * this.speed;
+
+        if (dist(player.pos, this.pos) < CONST["AGGRO"]) {
+            this.changeState("attack");
+        }
     }
 
-    getDirFromAngle(moveDirAngle, sign) {
+    _getDirFromAngle(moveDirAngle, sign) {
         let minAngleDiff = 2;
         if (sign < 0) {
             //[N, NW, W, SW, S]

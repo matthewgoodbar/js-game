@@ -61,3 +61,9 @@ export const dirToVector = (dirCode) => {
     };
     return directionVectors[dirCode];
 };
+
+export const dirScaleFactor = (dirCode) => {
+    if (dirCode === 87 || dirCode === 83) return 0.577;
+    if (dirCode === 65 || dirCode === 68) return 1;
+    return mag({x:0.707,y:0.408});
+};

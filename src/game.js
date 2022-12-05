@@ -21,4 +21,8 @@ export default class Game {
         // console.log(this.dt);
         requestAnimationFrame(this.run);
     }
+
+    restart() {
+        this.scene = new Scene(this);
+    }
 }

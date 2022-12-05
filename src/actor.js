@@ -68,6 +68,7 @@ export default class Actor extends Sprite {
         if (!this.hitBy) { //initial hit frame
             this.hitBy = hb;
             this.timeHit = Date.now();
+            if (this.health > 0) this.health--;
         }
     }
 
@@ -75,9 +76,11 @@ export default class Actor extends Sprite {
         let timeElapsed = Date.now() - this.timeHit;
         if (timeElapsed < 400) {
             this.pushBack(400 - timeElapsed, dt);
+            this.color = "red";
         } else {
             this.vel = {x:0,y:0}; 
             this.hitBy = undefined;
+            this.color = "green";
         }
     }
 
