@@ -125,8 +125,7 @@ export default class Scene {
         this.gameObjects.forEach((go) => {
             this.hitboxes.forEach((hb) => {
                 if (dist(go.pos, hb.pos) < go.r + hb.r) {
-                    go.hitBy = hb;
-                    go.changeState("hit");
+                    go.hit(hb);
                 }
             })
         })

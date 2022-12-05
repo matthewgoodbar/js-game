@@ -1,5 +1,5 @@
 import Sprite from "./sprite.js";
-
+import { dirToVector, scaleVector } from './utils.js';
 
 export default class Actor extends Sprite {
     constructor({vel, pos, r, health, speed, img, dir, state}) {
@@ -16,11 +16,15 @@ export default class Actor extends Sprite {
         this.stateLock = false;
         this.timeEnteredState = new Date();
 
+        this.hitbox = undefined;
+        this.hitBy = undefined;
+        this.timeHit = undefined;
+
         this.states = {
-            "idle": ["attack", "hit", "moving"],
-            "attack": ["idle", "hit"],
-            "hit": ["idle", "death"],
-            "moving": ["idle", "attack", "hit"],
+            "idle": ["attack", "moving", "death"],
+            "attack": ["idle", "death"],
+            // "hit": ["idle", "death"],
+            "moving": ["idle", "attack", "death"],
             "death": []
         };
     }
@@ -29,10 +33,11 @@ export default class Actor extends Sprite {
         switch(this.state) {
             case "idle": {this.idle(); break;}
             case "attack": {this.attack(); break;}
-            case "hit": {this.hit(); break;}
+            // case "hit": {this.hit(); break;}
             case "moving": {this.moving(); break;}
             case "death": {this.death(); break;}
         }
+        if (this.hitBy) this._hit();
     }
 
     changeState(newState) {
@@ -52,15 +57,34 @@ export default class Actor extends Sprite {
         // console.log("please override attack()!");
     }
 
-    hit() {
-        // console.log("please override hit()!");
-    }
-
     moving() {
         // console.log("please override moving()!");
     }
 
     death() {
         // console.log("please override death()!");
+    }
+
+    hit(hb) {
+        if (!this.hitBy) { //initial hit frame
+            this.hitBy = hb;
+            this.timeHit = Date.now();
+        }
+    }
+
+    _hit() {
+        let timeElapsed = Date.now() - this.timeHit;
+        if (timeElapsed < 400) {
+            this.pushBack(400 - timeElapsed);
+        } else {
+            this.hitBy = undefined;
+        }
+    }
+
+    pushBack(factor) {
+        let pushVector = dirToVector(this.hitBy.dir);
+        pushVector = scaleVector(pushVector, -1);
+        this.vel.x = pushVector.x * factor;
+        this.vel.y = pushVector.y * factor;
     }
 }
