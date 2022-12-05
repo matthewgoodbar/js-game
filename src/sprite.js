@@ -1,5 +1,5 @@
 export default class Sprite {
-    constructor({ vel, pos, r, img }) {
+    constructor({ vel, pos, r, img, }) {
         if (!vel) { this.vel = {x:0, y:0}; }
         else {this.vel = vel;}
         if (!pos) { this.pos = {x:0,y:0};}
@@ -24,10 +24,10 @@ export default class Sprite {
             ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
             ctx.fill();
         } else {
-            // ctx.fillStyle = "blue";
-            // ctx.beginPath();
-            // ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-            // ctx.fill();
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
+            ctx.fill();
             this._updateAnchor();
             ctx.drawImage(this.img, this.anchor.x, this.anchor.y);
         }

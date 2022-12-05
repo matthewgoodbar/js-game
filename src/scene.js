@@ -1,7 +1,8 @@
-import {intersect, scaleVector} from "./utils.js";
-import Player from "./player.js";
+import {intersect, scaleVector, dist} from "./utils.js";
 import Sprite from "./sprite.js";
 import Actor from "./actor.js";
+import Enemy from "./enemy.js";
+import Player from "./player.js";
 
 export default class Scene {
     constructor(game) {
@@ -14,15 +15,26 @@ export default class Scene {
         this.hitboxes = [];
         this.player = new Player(this.center, this);
         this.foregroundStatic = [];
-        this.directionVectors = {
+        // this.directionVectors = { //Octagonal
+        //     87: {x: 0, y: 1}, //w
+        //     65: {x: 1, y: 0}, //a
+        //     83: {x: 0, y: -1}, //s
+        //     68: {x: -1, y: 0}, //d
+        //     155: {x: -0.707, y: 0.707}, //wd
+        //     152: {x: 0.707, y: 0.707}, //wa
+        //     151: {x: -0.707, y: -0.707}, //sd
+        //     148: {x: 0.707, y: -0.707}, //sa
+        //     0: {x: 0, y: 0}
+        // };
+        this.directionVectors = { //Isometric-accurate
             87: {x: 0, y: 1}, //w
             65: {x: 1, y: 0}, //a
             83: {x: 0, y: -1}, //s
             68: {x: -1, y: 0}, //d
-            155: {x: -0.707, y: 0.707}, //wd
-            152: {x: 0.707, y: 0.707}, //wa
-            151: {x: -0.707, y: -0.707}, //sd
-            148: {x: 0.707, y: -0.707}, //sa
+            155: {x: -0.866, y: 0.5}, //wd
+            152: {x: 0.866, y: 0.5}, //wa
+            151: {x: -0.866, y: -0.5}, //sd
+            148: {x: 0.866, y: -0.5}, //sa
             0: {x: 0, y: 0}
         };
         this.addObjects();
@@ -110,7 +122,14 @@ export default class Scene {
     }
 
     checkCollisions() {
-
+        this.gameObjects.forEach((go) => {
+            this.hitboxes.forEach((hb) => {
+                if (dist(go.pos, hb.pos) < go.r + hb.r) {
+                    go.hitBy = hb;
+                    go.changeState("hit");
+                }
+            })
+        })
     }
 
     drawObjects(ctx) {
@@ -154,60 +173,23 @@ export default class Scene {
                     },
                     img: bgSprites['ground1']
                 });
-                console.log(tile);
                 this.backgroundStatic.push(tile);
-                column.x += 100;
-                column.y += 57;
+                column.x += offset.x;
+                column.y += offset.y;
             }
-            rowStart.x -= 100;
-            rowStart.y += 57;
+            rowStart.x -= offset.x;
+            rowStart.y += offset.y;
         }
     }
 
     addObjects() {
-        this.gameObjects.push(new Actor({
-            vel: {
-                x: 0,
-                y: 0
+        this.gameObjects.push(new Enemy(
+            {
+                x: this.game.dimx / 2 - 100,
+                y: this.game.dimy / 2 + 50
             },
-            pos: {
-                x: 100,
-                y: 100
-            },
-            r: 10
-        }));
-        this.gameObjects.push(new Actor({
-            vel: {
-                x: 0,
-                y: 0
-            },
-            pos: {
-                x: 200,
-                y: 300
-            },
-            r: 15
-        }));
-        this.gameObjects.push(new Actor({
-            vel: {
-                x: 0,
-                y: 0
-            },
-            pos: {
-                x: 600,
-                y: 100
-            },
-            r: 4
-        }));
-        this.gameObjects.push(new Actor({
-            vel: {
-                x: 0,
-                y: 0
-            },
-            pos: {
-                x: this.game.dimx / 2,
-                y: this.game.dimy / 2 + 10
-            },
-            r: 20
-        }));
+            this
+        ));
+        console.log(this.gameObjects);
     }
 }

@@ -14,6 +14,7 @@ export default class Player extends Actor {
         });
         this.scene = scene;
         this.hitbox = undefined;
+        this.hitBy = undefined;
     }
 
     tick() {
@@ -79,14 +80,15 @@ export default class Player extends Actor {
     }
 
     createHitbox() {
-        let hbPos = scaleVector(this.scene.directionVectors[this.dir], this.r);
+        let hbr = this.r * 1.2;
+        let hbPos = scaleVector(this.scene.directionVectors[this.dir], hbr + this.r + 4);
         hbPos = scaleVector(hbPos, -1);
         let hitbox = new Hitbox({ 
             pos: {
                 x: this.pos.x + hbPos.x,
                 y: this.pos.y + hbPos.y
             },
-            r: this.r * 1.2,
+            r: hbr,
             owner: this,
             dir: this.dir
         });

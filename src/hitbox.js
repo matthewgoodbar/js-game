@@ -7,7 +7,6 @@ export default class Hitbox extends Sprite {
         this.dir = dir;
     }
 
-
     draw(ctx) {
         ctx.fillStyle = "red";
         ctx.beginPath();
