@@ -107,4 +107,11 @@ export default class Actor extends Sprite {
         });
         return hitbox;
     }
+
+    collisionHandle(bd) {
+        let error = Math.abs(bd.distToObj(this) - this.r);
+        let correction = scaleVector({x:bd.normal.x,y:bd.normal.y}, -1 * error);
+        this.pos.x += correction.x;
+        this.pos.y += correction.y;
+    }
 }

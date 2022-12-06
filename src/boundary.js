@@ -21,11 +21,11 @@ export default class Boundary {
             y: go.pos.y - pos.y
         }
         let projectionScale = utils.dot(objectVector, delta) / (utils.mag(delta)** 2);
-        let projDelta = utils.scaleVector({x:delta.x, y:delta.y}, projectionScale);
+        let projectionDelta = utils.scaleVector({x:delta.x, y:delta.y}, projectionScale);
 
         let distance = utils.mag({
-            x: (go.pos.x) - (projDelta.x + pos.x),
-            y: (go.pos.y) - (projDelta.y + pos.y)
+            x: (go.pos.x) - (projectionDelta.x + pos.x),
+            y: (go.pos.y) - (projectionDelta.y + pos.y)
         });
         return distance;
     }

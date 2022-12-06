@@ -140,9 +140,9 @@ export default class Scene {
     checkCollisions() {
         this.boundaries.forEach((bd) => {
             this.gameObjects.forEach((go) => {
-                bd.distToObj(go);
+                 if (bd.distToObj(go) < go.r) go.collisionHandle(bd);
             })
-            bd.distToObj(this.player);
+            if (bd.distToObj(this.player) < this.player.r) this.player.collisionHandle(bd);
         })
     }
 
