@@ -13,30 +13,21 @@ export default class Boundary {
         this.normal = normal;
     }
 
-    rayTo(go, ctx) {
+    distToObj(go) {
         let pos = this.pos;
-        ctx.strokeStyle = "blue";
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
-        ctx.lineTo(go.pos.x, go.pos.y);
-        ctx.stroke();
-
+        let delta = this.delta;
         let objectVector = {
-            x: go.pos.x - this.pos.x,
-            y: go.pos.y - this.pos.y
+            x: go.pos.x - pos.x,
+            y: go.pos.y - pos.y
         }
+        let projectionScale = utils.dot(objectVector, delta) / (utils.mag(delta)** 2);
+        let projDelta = utils.scaleVector({x:delta.x, y:delta.y}, projectionScale);
 
-        // let projectionScale = utils.dot(objectVector, this.delta) / (utils.mag(this.delta)** 2);
-        let projectionScale = utils.dot(objectVector, this.delta) / utils.dot(this.delta, this.delta);
-        console.log(projectionScale);
-        let projDelta = utils.scaleVector({x:this.delta.x, y:this.delta.y}, projectionScale);
-
-        ctx.strokeStyle = "red";
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
-        ctx.lineTo(projDelta.x + pos.x, projDelta.y + pos.y);
-        ctx.stroke();
-
+        let distance = utils.mag({
+            x: (go.pos.x) - (projDelta.x + pos.x),
+            y: (go.pos.y) - (projDelta.y + pos.y)
+        });
+        return distance;
     }
 
     draw(ctx) {
