@@ -20,6 +20,7 @@ export default class Player extends Actor {
         this.scene = scene;
         // this.hitbox = undefined;
         // this.hitBy = undefined;
+        this.mockPush = {x:0, y:0};
         this.unscaledSpeed = this.speed;
     }
 
@@ -56,8 +57,27 @@ export default class Player extends Actor {
         }
     }
 
-    hit() {
+    // hit(hb) {
+    // }
 
+    _hit(dt) {
+        let timeElapsed = Date.now() - this.timeHit;
+        if (timeElapsed < 400) {
+            this.pushBack(400 - timeElapsed, dt);
+            this.color = "red";
+            this.img.style.opacity = 0;
+        } else {
+            this.mockPush = {x:0,y:0}; 
+            this.hitBy = undefined;
+            this.color = "green";
+        }
+    }
+
+    pushBack(factor, dt) {
+        let pushVector = dirToVector(this.hitBy.dir);
+        pushVector = scaleVector(pushVector, -1);
+        this.mockPush.x = pushVector.x * factor * dt * -1;
+        this.mockPush.y = pushVector.y * factor * dt * -1;
     }
 
     moving() {

@@ -90,21 +90,27 @@ export default class Scene {
     translateObjects(dt) {
         let dir = dirToVector(this.cameraDir);
         let speed = this.player.speed;
+        let dpos = scaleVector(dir, speed * dt);
+        dpos = {
+            x: dpos.x + this.player.mockPush.x,
+            y: dpos.y + this.player.mockPush.y
+        };
+        console.log(dpos);
         this.backgroundStatic.forEach((bg) => {
-            bg.pos.x += dir.x * speed * dt;
-            bg.pos.y += dir.y * speed * dt;
+            bg.pos.x += dpos.x;
+            bg.pos.y += dpos.y;
         })
         this.gameObjects.forEach((go) => {
-            go.pos.x += dir.x * speed * dt;
-            go.pos.y += dir.y * speed * dt;
+            go.pos.x += dpos.x;
+            go.pos.y += dpos.y;
         })
         this.hitboxes.forEach((hb) => {
-            hb.pos.x += dir.x * speed * dt;
-            hb.pos.y += dir.y * speed * dt;
+            hb.pos.x += dpos.x;
+            hb.pos.y += dpos.y;
         })
         this.foregroundStatic.forEach((fg) => {
-            fg.pos.x += dir.x * speed * dt;
-            fg.pos.y += dir.y * speed * dt;
+            fg.pos.x += dpos.x;
+            fg.pos.y += dpos.y;
         })
     }
 
