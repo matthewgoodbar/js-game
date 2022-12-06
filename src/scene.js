@@ -30,7 +30,7 @@ export default class Scene {
         this.hitDetection();
         this.checkCollisions();
         this.drawObjects(this.ctx);
-        this.drawHitboxes(this.ctx);
+        // this.drawHitboxes(this.ctx);
     }
 
     addGameObject(obj) {
@@ -235,19 +235,19 @@ export default class Scene {
             },
             this
         ));
-        this.gameObjects.push(new Enemy(
-            {
-                x: this.game.dimx / 2 + 100,
-                y: this.game.dimy / 2 + 50
-            },
-            this
-        ));
-        this.gameObjects.push(new Enemy(
-            {
-                x: this.game.dimx / 2 + 50,
-                y: this.game.dimy / 2 + 150
-            },
-            this
-        ));
+        // this.gameObjects.push(new Enemy(
+        //     {
+        //         x: this.game.dimx / 2 + 100,
+        //         y: this.game.dimy / 2 + 50
+        //     },
+        //     this
+        // ));
+        // this.gameObjects.push(new Enemy(
+        //     {
+        //         x: this.game.dimx / 2 + 50,
+        //         y: this.game.dimy / 2 + 150
+        //     },
+        //     this
+        // ));
     }
 }

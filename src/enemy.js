@@ -53,13 +53,16 @@ export default class Enemy extends Actor {
         this.vel = {x:0, y:0};
         let timeElapsed = Date.now() - this.timeEnteredState;
         if (timeElapsed < 400) { //wind up
+            this.setSprite("attack_1");
             this.color = "white";
         } else if (timeElapsed < 800) { //spawn hitbox
+            this.setSprite("attack_2");
             if (!this.hitbox){
                 this.hitbox = this.createHitbox();
                 this.scene.addHitbox(this.hitbox);
             }
-        } else if (timeElapsed < 1000) {// despawn hitbox / recovery
+        } else if (timeElapsed < 1200) {// despawn hitbox / recovery
+            this.setSprite("attack_3");
             if (this.hitbox) {
                 this.scene.removeHitbox(this.hitbox);
                 this.hitbox = undefined;
@@ -80,6 +83,14 @@ export default class Enemy extends Actor {
     
     moving() {
         this.stateLock = false;
+        let timeElapsed = (Date.now() - this.timeEnteredState) % 800;
+        if (timeElapsed < 400) {
+            this.setSprite("idle");
+        } else if (timeElapsed < 600) {
+            this.setSprite("move_1");
+        } else if (timeElapsed < 800) {
+            this.setSprite("move_2");
+        }
         this.vel.x = this.velVector.x * this.speed;
         this.vel.y = this.velVector.y * this.speed;
         if (dist(this.player.pos, this.pos) < CONST["AGGRO"]) {
@@ -88,7 +99,7 @@ export default class Enemy extends Actor {
     }
 
     setSprite(frame) {
-        this.img = playerSprites[this.dir][frame];
+        this.img = enemySprites[this.dir][frame];
     }
 
     _setVelAndSpeed() {
