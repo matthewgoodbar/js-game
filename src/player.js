@@ -2,6 +2,11 @@ import Actor from './actor.js';
 import Hitbox from './hitbox.js';
 import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
 
+const CONST = {
+    "SPEED": 300,
+    "HEALTH": 3,
+}
+
 export default class Player extends Actor {
     constructor(pos, scene) {
         super({
@@ -10,11 +15,11 @@ export default class Player extends Actor {
             r: 40, 
             img: playerSprites[148]['idle'],
             health: 3,
-            speed: 300
+            speed: CONST["SPEED"]
         });
         this.scene = scene;
-        this.hitbox = undefined;
-        this.hitBy = undefined;
+        // this.hitbox = undefined;
+        // this.hitBy = undefined;
         this.unscaledSpeed = this.speed;
     }
 
@@ -76,22 +81,6 @@ export default class Player extends Actor {
 
     setSprite(frame) {
         this.img = playerSprites[this.dir][frame];
-        // console.log(playerSprites[this.dir][frame]);
     }
 
-    createHitbox() {
-        let hbr = this.r * 1.2;
-        let hbPos = scaleVector(dirToVector(this.dir), hbr + this.r + 4);
-        hbPos = scaleVector(hbPos, -1);
-        let hitbox = new Hitbox({ 
-            pos: {
-                x: this.pos.x + hbPos.x,
-                y: this.pos.y + hbPos.y
-            },
-            r: hbr,
-            owner: this,
-            dir: this.dir
-        });
-        return hitbox;
-    }
 }

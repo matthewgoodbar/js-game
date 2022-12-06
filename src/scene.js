@@ -22,6 +22,7 @@ export default class Scene {
     
     run(dt) {
         // console.log(dt);
+        // console.log(this.player.health);
         this.tickStateMachines(dt);
         this.getInputs();
         this.moveObjects(dt);
@@ -87,17 +88,23 @@ export default class Scene {
     }
 
     translateObjects(dt) {
+        let dir = dirToVector(this.cameraDir);
+        let speed = this.player.speed;
         this.backgroundStatic.forEach((bg) => {
-            bg.pos.x += dirToVector(this.cameraDir).x * this.player.speed * dt;
-            bg.pos.y += dirToVector(this.cameraDir).y * this.player.speed * dt;
+            bg.pos.x += dir.x * speed * dt;
+            bg.pos.y += dir.y * speed * dt;
         })
         this.gameObjects.forEach((go) => {
-            go.pos.x += dirToVector(this.cameraDir).x * this.player.speed * dt;
-            go.pos.y += dirToVector(this.cameraDir).y * this.player.speed * dt;
+            go.pos.x += dir.x * speed * dt;
+            go.pos.y += dir.y * speed * dt;
+        })
+        this.hitboxes.forEach((hb) => {
+            hb.pos.x += dir.x * speed * dt;
+            hb.pos.y += dir.y * speed * dt;
         })
         this.foregroundStatic.forEach((fg) => {
-            fg.pos.x += dirToVector(this.cameraDir).x * this.player.speed * dt;
-            fg.pos.y += dirToVector(this.cameraDir).y * this.player.speed * dt;
+            fg.pos.x += dir.x * speed * dt;
+            fg.pos.y += dir.y * speed * dt;
         })
     }
 
@@ -220,6 +227,20 @@ export default class Scene {
             {
                 x: this.game.dimx / 2 - 100,
                 y: this.game.dimy / 2 + 50
+            },
+            this
+        ));
+        this.gameObjects.push(new Enemy(
+            {
+                x: this.game.dimx / 2 + 100,
+                y: this.game.dimy / 2 + 50
+            },
+            this
+        ));
+        this.gameObjects.push(new Enemy(
+            {
+                x: this.game.dimx / 2 + 50,
+                y: this.game.dimy / 2 + 150
             },
             this
         ));

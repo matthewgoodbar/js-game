@@ -1,5 +1,6 @@
 import Sprite from "./sprite.js";
-import { dirToVector, scaleVector } from './utils.js';
+import Hitbox from "./hitbox.js";
+import { dirToVector, scaleVector, dirScaleFactor } from './utils.js';
 
 export default class Actor extends Sprite {
     constructor({vel, pos, r, health, speed, img, dir, state}) {
@@ -77,6 +78,7 @@ export default class Actor extends Sprite {
         if (timeElapsed < 400) {
             this.pushBack(400 - timeElapsed, dt);
             this.color = "red";
+            this.img.style.opacity = 0;
         } else {
             this.vel = {x:0,y:0}; 
             this.hitBy = undefined;
@@ -89,5 +91,20 @@ export default class Actor extends Sprite {
         pushVector = scaleVector(pushVector, -1);
         this.pos.x += pushVector.x * factor * dt;
         this.pos.y += pushVector.y * factor * dt;
+    }
+
+    createHitbox(size = 1.2) {
+        let hbr = this.r * size;
+        let hbPos = scaleVector(dirToVector(this.dir), (hbr + this.r + 4) * dirScaleFactor(this.dir) * -1);
+        let hitbox = new Hitbox({ 
+            pos: {
+                x: this.pos.x + hbPos.x,
+                y: this.pos.y + hbPos.y
+            },
+            r: hbr,
+            owner: this,
+            dir: this.dir
+        });
+        return hitbox;
     }
 }

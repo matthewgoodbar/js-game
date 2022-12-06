@@ -2,7 +2,11 @@ import Sprite from "./sprite.js";
 
 export default class Hitbox extends Sprite {
     constructor({ vel, pos, r, owner, dir}) {
-        super({vel: vel, pos: pos, r: r});
+        super({
+            vel: vel, 
+            pos: pos, 
+            r: r
+        });
         this.owner = owner;
         this.dir = dir;
     }
