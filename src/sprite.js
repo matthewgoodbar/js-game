@@ -26,10 +26,10 @@ export default class Sprite {
             ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
             ctx.fill();
         } else {
-            // ctx.fillStyle = this.color;
-            // ctx.beginPath();
-            // ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
-            // ctx.fill();
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI);
+            ctx.fill();
 
             this._updateAnchor();
             ctx.drawImage(this.img, this.anchor.x, this.anchor.y);

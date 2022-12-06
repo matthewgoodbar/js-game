@@ -20,6 +20,5 @@ export default class Boundary {
         ctx.moveTo(pos.x, pos.y);
         ctx.lineTo(pos.x + delta.x, pos.y + delta.y);
         ctx.stroke();
-        console.log("being drawn")
     }
 }

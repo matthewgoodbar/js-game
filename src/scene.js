@@ -33,7 +33,7 @@ export default class Scene {
         this.checkCollisions();
         this.hitDetection();
         this.drawObjects(this.ctx);
-        // this.drawHitboxes(this.ctx); //for debugging
+        this.drawHitboxes(this.ctx); //for debugging
         this.drawBoundaries(this.ctx); //for debugging
     }
 
@@ -221,6 +221,7 @@ export default class Scene {
             leftWall.y += offset.y;
         }
         let initialPos = {x:this.game.dimx / 2, y: 0}; //Start point for floor tiles
+        this.terrainOrigin = {x:initialPos.x, y:initialPos.y};
         let rowStart = {x:initialPos.x, y:initialPos.y};
         for (let i = 0; i < 10; i++) { //Render floor tiles
             let column = {x:rowStart.x, y:rowStart.y};
@@ -242,8 +243,50 @@ export default class Scene {
     }
 
     addBoundaries() {
-        let b = new Boundary({});
-        this.boundaries.push(b);
+        let nw = new Boundary({
+            pos: {
+                x: (this.terrainOrigin.x) - (10 * 100),
+                y: (8 * 57)
+            },
+            delta: {
+                x: 10 * 100,
+                y: 10 * -57
+            }
+        });
+        this.boundaries.push(nw);
+        let ne = new Boundary({
+            pos: {
+                x: (this.terrainOrigin.x) + (10 * 100),
+                y: (8 * 57)
+            },
+            delta: {
+                x: 10 * -100,
+                y: 10 * -57
+            }
+        });
+        this.boundaries.push(ne);
+        let se = new Boundary({
+            pos: {
+                x: (this.terrainOrigin.x) + (10 * 100),
+                y: (8.6 * 57)
+            },
+            delta: {
+                x: 10 * -100,
+                y: 10 * 57
+            }
+        });
+        this.boundaries.push(se);
+        let sw = new Boundary({
+            pos: {
+                x: (this.terrainOrigin.x) - (10 * 100),
+                y: (8.6 * 57)
+            },
+            delta: {
+                x: 10 * 100,
+                y: 10 * 57
+            }
+        });
+        this.boundaries.push(sw);
     }
 
     addObjects() {
