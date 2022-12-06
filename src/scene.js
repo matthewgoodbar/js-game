@@ -1,4 +1,5 @@
 import {intersect, scaleVector, dist, dirToVector, randInt} from "./utils.js";
+import Boundary from "./boundary.js";
 import Sprite from "./sprite.js";
 import Actor from "./actor.js";
 import Enemy from "./enemy.js";
@@ -10,6 +11,7 @@ export default class Scene {
         this.ctx = this.game.ctx;
         this.center = game.center;
         this.cameraDir = 0;
+        this.boundaries = [];
         this.backgroundStatic = [];
         this.gameObjects = [];
         this.hitboxes = [];
@@ -18,6 +20,7 @@ export default class Scene {
 
         this.addObjects();
         this.addBackgroundStatic();
+        this.addBoundaries();
     }
     
     run(dt) {
@@ -27,10 +30,11 @@ export default class Scene {
         this.getInputs();
         this.moveObjects(dt);
         this.translateObjects(dt);
-        this.hitDetection();
         this.checkCollisions();
+        this.hitDetection();
         this.drawObjects(this.ctx);
-        // this.drawHitboxes(this.ctx);
+        // this.drawHitboxes(this.ctx); //for debugging
+        this.drawBoundaries(this.ctx); //for debugging
     }
 
     addGameObject(obj) {
@@ -107,6 +111,10 @@ export default class Scene {
             hb.pos.x += dpos.x;
             hb.pos.y += dpos.y;
         })
+        this.boundaries.forEach((bd) => {
+            bd.pos.x += dpos.x;
+            bd.pos.y += dpos.y;
+        })
         this.foregroundStatic.forEach((fg) => {
             fg.pos.x += dpos.x;
             fg.pos.y += dpos.y;
@@ -156,6 +164,12 @@ export default class Scene {
     drawHitboxes(ctx) {
         this.hitboxes.forEach((hb) => {
             hb.draw(ctx);
+        })
+    }
+
+    drawBoundaries(ctx) {
+        this.boundaries.forEach((bd) => {
+            bd.draw(ctx);
         })
     }
 
@@ -227,14 +241,19 @@ export default class Scene {
         }
     }
 
+    addBoundaries() {
+        let b = new Boundary({});
+        this.boundaries.push(b);
+    }
+
     addObjects() {
-        this.gameObjects.push(new Enemy(
-            {
-                x: this.game.dimx / 2 - 100,
-                y: this.game.dimy / 2 + 50
-            },
-            this
-        ));
+        // this.gameObjects.push(new Enemy(
+        //     {
+        //         x: this.game.dimx / 2 - 100,
+        //         y: this.game.dimy / 2 + 50
+        //     },
+        //     this
+        // ));
         // this.gameObjects.push(new Enemy(
         //     {
         //         x: this.game.dimx / 2 + 100,
