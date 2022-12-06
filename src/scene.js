@@ -1,4 +1,4 @@
-import {intersect, scaleVector, dist, dirToVector} from "./utils.js";
+import {intersect, scaleVector, dist, dirToVector, randInt} from "./utils.js";
 import Sprite from "./sprite.js";
 import Actor from "./actor.js";
 import Enemy from "./enemy.js";
@@ -170,7 +170,7 @@ export default class Scene {
                     x: rightWall.x,
                     y: rightWall.y + randomJitter
                 },
-                img: bgSprites['wall1']
+                img: bgSprites['wall0']
             });
             this.backgroundStatic.push(wall); //lower level
             wall = new Sprite({
@@ -178,7 +178,7 @@ export default class Scene {
                     x: rightWall.x,
                     y: rightWall.y - 128 + randomJitter
                 },
-                img: bgSprites['wall1']
+                img: bgSprites['wall0']
             });
             this.backgroundStatic.push(wall); //upper level
             rightWall.x += offset.x;
@@ -192,7 +192,7 @@ export default class Scene {
                     x: leftWall.x,
                     y: leftWall.y + randomJitter
                 },
-                img: bgSprites['wall1']
+                img: bgSprites['wall0']
             });
             this.backgroundStatic.push(wall); //lower level
             wall = new Sprite({
@@ -200,7 +200,7 @@ export default class Scene {
                     x: leftWall.x,
                     y: leftWall.y - 128 + randomJitter
                 },
-                img: bgSprites['wall1']
+                img: bgSprites['wall0']
             });
             this.backgroundStatic.push(wall); //upper level
             leftWall.x -= offset.x;
@@ -216,7 +216,7 @@ export default class Scene {
                         x: column.x,
                         y: column.y + (Math.random() * 20)
                     },
-                    img: bgSprites['ground1']
+                    img: bgSprites[`ground${randInt(2)}`]
                 });
                 this.backgroundStatic.push(tile);
                 column.x += offset.x;

@@ -36,6 +36,10 @@ export const dist = (v1, v2) => {
     );
 };
 
+export const randInt = (max) => {
+    return Math.floor(Math.random() * max);
+}
+
 export const dirToVector = (dirCode) => {
     // const directionVectors = { //Octagonal
     //     87: {x: 0, y: 1}, //w
