@@ -95,7 +95,6 @@ export default class Scene {
             x: dpos.x + this.player.mockPush.x,
             y: dpos.y + this.player.mockPush.y
         };
-        console.log(dpos);
         this.backgroundStatic.forEach((bg) => {
             bg.pos.x += dpos.x;
             bg.pos.y += dpos.y;
