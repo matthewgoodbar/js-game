@@ -9,11 +9,15 @@ export const norm = (vector) => {
 export const dot = (v1, v2) => {
     return (
         (v1.x * v2.x) + (v1.y * v2.y)
-    ) / (mag(v1) * mag(v2));
+    ) // / (mag(v1) * mag(v2));
 };
 
 export const mag = (vector) => {
     return dist(vector, {x:0,y:0});
+};
+
+export const cos = (v1, v2) => {
+    return dot(v1, v2) / (mag(v1) * mag(v2));
 };
 
 export const intersect = (arr1, arr2) => {

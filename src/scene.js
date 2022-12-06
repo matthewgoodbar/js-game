@@ -30,11 +30,12 @@ export default class Scene {
         this.getInputs();
         this.moveObjects(dt);
         this.translateObjects(dt);
-        this.checkCollisions();
+        // this.checkCollisions();
         this.hitDetection();
         this.drawObjects(this.ctx);
         this.drawHitboxes(this.ctx); //for debugging
         this.drawBoundaries(this.ctx); //for debugging
+        this.checkCollisions();
     }
 
     addGameObject(obj) {
@@ -137,7 +138,12 @@ export default class Scene {
     }
 
     checkCollisions() {
-
+        this.boundaries.forEach((bd) => {
+            this.gameObjects.forEach((go) => {
+                bd.rayTo(go, this.ctx);
+            })
+            bd.rayTo(this.player, this.ctx);
+        })
     }
 
     drawObjects(ctx) {
@@ -251,7 +257,8 @@ export default class Scene {
             delta: {
                 x: 10 * 100,
                 y: 10 * -57
-            }
+            },
+            normal: dirToVector(151)
         });
         this.boundaries.push(nw);
         let ne = new Boundary({
@@ -262,7 +269,8 @@ export default class Scene {
             delta: {
                 x: 10 * -100,
                 y: 10 * -57
-            }
+            },
+            normal: dirToVector(148)
         });
         this.boundaries.push(ne);
         let se = new Boundary({
@@ -273,7 +281,8 @@ export default class Scene {
             delta: {
                 x: 10 * -100,
                 y: 10 * 57
-            }
+            },
+            normal: dirToVector(152)
         });
         this.boundaries.push(se);
         let sw = new Boundary({
@@ -284,7 +293,8 @@ export default class Scene {
             delta: {
                 x: 10 * 100,
                 y: 10 * 57
-            }
+            },
+            normal: dirToVector(155)
         });
         this.boundaries.push(sw);
     }

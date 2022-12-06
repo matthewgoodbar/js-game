@@ -1,4 +1,4 @@
-import { dirToVector, scaleVector, norm, dot, dirScaleFactor, dist } from './utils.js';
+import * as utils from './utils.js';
 import Actor from './actor.js';
 
 const CONST = {
@@ -40,7 +40,7 @@ export default class Enemy extends Actor {
 
     idle() {
         this.stateLock = false;
-        if (dist(this.player.pos, this.pos) < CONST["AGGRO"]) {
+        if (utils.dist(this.player.pos, this.pos) < CONST["AGGRO"]) {
             this.changeState("attack");
         } else {
             this.changeState("moving");
@@ -93,7 +93,7 @@ export default class Enemy extends Actor {
         }
         this.vel.x = this.velVector.x * this.speed;
         this.vel.y = this.velVector.y * this.speed;
-        if (dist(this.player.pos, this.pos) < CONST["AGGRO"]) {
+        if (utils.dist(this.player.pos, this.pos) < CONST["AGGRO"]) {
             this.changeState("attack");
         }
     }
@@ -103,24 +103,24 @@ export default class Enemy extends Actor {
     }
 
     _setVelAndSpeed() {
-        this.velVector = scaleVector(dirToVector(this.dir), -1);
-        this.speed = this.absoluteSpeed * dirScaleFactor(this.dir);
+        this.velVector = utils.scaleVector(utils.dirToVector(this.dir), -1);
+        this.speed = this.absoluteSpeed * utils.dirScaleFactor(this.dir);
     }
 
     _setDirFromAngle() {
         if (this.stateLock) return;
-        let moveDir = norm({
+        let moveDir = utils.norm({
             x: this.player.pos.x - this.pos.x,
             y: this.player.pos.y - this.pos.y
         });
-        let moveDirAngle = dot(moveDir, {x:0,y:-1});
+        let moveDirAngle = utils.cos(moveDir, {x:0,y:-1});
         let minAngleDiff = 2;
         if (moveDir.x < 0) {
             //[N, NW, W, SW, S]
             let westDirs = [87, 152, 65, 148, 83];
             westDirs.forEach((dirCode) => {
-                let dirVector = scaleVector(dirToVector(dirCode), -1);
-                let angle = dot(dirVector, {x:0,y:-1});
+                let dirVector = utils.scaleVector(utils.dirToVector(dirCode), -1);
+                let angle = utils.cos(dirVector, {x:0,y:-1});
                 let angleDiff = Math.abs(angle - moveDirAngle);
                 if (angleDiff < minAngleDiff) {
                     minAngleDiff = angleDiff;
@@ -131,8 +131,8 @@ export default class Enemy extends Actor {
             //[N, NE, E, SE, S]
             let eastDirs = [87, 155, 68, 151, 83]
             eastDirs.forEach((dirCode) => {
-                let dirVector = scaleVector(dirToVector(dirCode), -1);
-                let angle = dot(dirVector, {x:0,y:-1});
+                let dirVector = utils.scaleVector(utils.dirToVector(dirCode), -1);
+                let angle = utils.cos(dirVector, {x:0,y:-1});
                 let angleDiff = Math.abs(angle - moveDirAngle);
                 if (angleDiff < minAngleDiff) {
                     minAngleDiff = angleDiff;
