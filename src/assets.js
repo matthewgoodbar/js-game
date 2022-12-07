@@ -46,7 +46,8 @@ const loadEnemySprites = async () => {
     let frames = [
         'attack_1', 'attack_2', 'attack_3', 'attack_4',
         'idle',
-        'move_1', 'move_2'
+        'move_1', 'move_2',
+        'death_1', 'death_2', 'death_3', 'death_4'
     ];
     dirs.forEach((dir) => {
         enemySprites[dir] = {};

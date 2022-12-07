@@ -83,8 +83,14 @@ export default class Enemy extends Actor {
         this.stateLock = true;
         // console.log("i am dead...");
         this.color = "black";
-        if (timeElapsed < 1000) {
-
+        if (timeElapsed < 600) {
+            this.setSprite('death_1');
+        } else if (timeElapsed < 800){
+            this.setSprite('death_2');
+        } else if (timeElapsed < 1000) {
+            this.setSprite('death_3');
+        } else if (timeElapsed < 1200) {
+            this.setSprite('death_4');
         } else {
             this.scene.removeGameObject(this);
         }
