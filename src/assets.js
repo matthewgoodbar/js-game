@@ -44,7 +44,7 @@ const loadEnemySprites = async () => {
     let path = '../assets/enemy';
     let dirs = [148, 65, 152, 87, 155, 68, 151, 83];
     let frames = [
-        'attack_1', 'attack_2', 'attack_3',
+        'attack_1', 'attack_2', 'attack_3', 'attack_4',
         'idle',
         'move_1', 'move_2'
     ];

@@ -62,12 +62,14 @@ export default class Enemy extends Actor {
                 this.hitbox = this.createHitbox();
                 this.scene.addHitbox(this.hitbox);
             }
-        } else if (timeElapsed < 1200) {// despawn hitbox / recovery
+        } else if (timeElapsed < 1000) {// despawn hitbox / recovery
             this.setSprite("attack_3");
             if (this.hitbox) {
                 this.scene.removeHitbox(this.hitbox);
                 this.hitbox = undefined;
             }
+        } else if (timeElapsed < 1200) {
+            this.setSprite("attack_4");
         } else {
             this.stateLock = false;
             this.color = "green";
