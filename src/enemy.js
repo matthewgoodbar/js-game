@@ -76,9 +76,15 @@ export default class Enemy extends Actor {
     }
 
     death() {
+        let timeElapsed = Date.now() - this.timeEnteredState;
         this.stateLock = true;
         // console.log("i am dead...");
         this.color = "black";
+        if (timeElapsed < 1000) {
+
+        } else {
+            this.scene.removeGameObject(this);
+        }
     }
     
     moving() {

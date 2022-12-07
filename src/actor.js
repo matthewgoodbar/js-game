@@ -69,7 +69,7 @@ export default class Actor extends Sprite {
         if (!this.hitBy) { //initial hit frame
             this.hitBy = hb;
             this.timeHit = Date.now();
-            // if (this.health > 0) this.health--;
+            if (this.health > 0) this.health--;
         }
     }
 
@@ -116,6 +116,6 @@ export default class Actor extends Sprite {
     }
 
     disperse() {
-        
+
     }
 }

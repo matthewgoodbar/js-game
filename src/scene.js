@@ -4,6 +4,7 @@ import Sprite from "./sprite.js";
 import Actor from "./actor.js";
 import Enemy from "./enemy.js";
 import Player from "./player.js";
+import SpawnPoint from "./spawnpoint.js";
 
 export default class Scene {
     constructor(game) {
@@ -12,15 +13,18 @@ export default class Scene {
         this.center = game.center;
         this.cameraDir = 0;
         this.boundaries = [];
+        this.spawnPoints = [];
         this.backgroundStatic = [];
         this.gameObjects = [];
         this.hitboxes = [];
         this.player = new Player(this.center, this);
         this.foregroundStatic = [];
+        this.floorTileOffset = {x:100,y:57};
 
-        this.addObjects();
+        // this.addObjects();
         this.addBackgroundStatic();
         this.addBoundaries();
+        this.addSpawnPoints();
     }
     
     run(dt) {
@@ -35,6 +39,7 @@ export default class Scene {
         this.drawObjects(this.ctx);
         // this.drawHitboxes(this.ctx); //for debugging
         // this.drawBoundaries(this.ctx); //for debugging
+        this.drawSpawnPoints(this.ctx); //for debugging
         // this.checkCollisions();
     }
 
@@ -113,6 +118,10 @@ export default class Scene {
         this.hitboxes.forEach((hb) => {
             hb.pos.x += dpos.x;
             hb.pos.y += dpos.y;
+        })
+        this.spawnPoints.forEach((sp) => {
+            sp.pos.x += dpos.x;
+            sp.pos.y += dpos.y;
         })
         this.boundaries.forEach((bd) => {
             bd.pos.x += dpos.x;
@@ -193,8 +202,14 @@ export default class Scene {
         })
     }
 
+    drawSpawnPoints(ctx) {
+        this.spawnPoints.forEach((sp) => {
+            sp.draw(ctx);
+        })
+    }
+
     addBackgroundStatic() {
-        let offset = {x:100,y:57}; //Proper spacing between tiles
+        let offset = this.floorTileOffset; //Proper spacing between tiles
         let wallStart = {x:this.game.dimx / 2, y: offset.y * -2}; //Start point for wall tiles
         let rightWall = {x:wallStart.x, y:wallStart.y};
         for (let i = 0; i < 11; i++) { //Render right side wall
@@ -265,52 +280,80 @@ export default class Scene {
     addBoundaries() {
         let nw = new Boundary({
             pos: {
-                x: (this.terrainOrigin.x) - (10 * 100),
-                y: (8 * 57)
+                x: (this.terrainOrigin.x) - (10 * this.floorTileOffset.x),
+                y: (8 * this.floorTileOffset.y)
             },
             delta: {
-                x: 10 * 100,
-                y: 10 * -57
+                x: 10 * this.floorTileOffset.x,
+                y: 10 * -this.floorTileOffset.y
             },
             normal: dirToVector(151)
         });
         this.boundaries.push(nw);
         let ne = new Boundary({
             pos: {
-                x: (this.terrainOrigin.x) + (10 * 100),
-                y: (8 * 57)
+                x: (this.terrainOrigin.x) + (10 * this.floorTileOffset.x),
+                y: (8 * this.floorTileOffset.y)
             },
             delta: {
-                x: 10 * -100,
-                y: 10 * -57
+                x: 10 * -this.floorTileOffset.x,
+                y: 10 * -this.floorTileOffset.y
             },
             normal: dirToVector(148)
         });
         this.boundaries.push(ne);
         let se = new Boundary({
             pos: {
-                x: (this.terrainOrigin.x) + (10 * 100),
-                y: (8.6 * 57)
+                x: (this.terrainOrigin.x) + (10 * this.floorTileOffset.x),
+                y: (8.6 * this.floorTileOffset.y)
             },
             delta: {
-                x: 10 * -100,
-                y: 10 * 57
+                x: 10 * -this.floorTileOffset.x,
+                y: 10 * this.floorTileOffset.y
             },
             normal: dirToVector(152)
         });
         this.boundaries.push(se);
         let sw = new Boundary({
             pos: {
-                x: (this.terrainOrigin.x) - (10 * 100),
-                y: (8.6 * 57)
+                x: (this.terrainOrigin.x) - (10 * this.floorTileOffset.x),
+                y: (8.6 * this.floorTileOffset.y)
             },
             delta: {
-                x: 10 * 100,
-                y: 10 * 57
+                x: 10 * this.floorTileOffset.x,
+                y: 10 * this.floorTileOffset.y
             },
             normal: dirToVector(155)
         });
         this.boundaries.push(sw);
+    }
+
+    addSpawnPoints() {
+        let spawnNorth = new SpawnPoint({
+            pos: {x:this.terrainOrigin.x, y:this.terrainOrigin.y - this.floorTileOffset.y}
+        });
+        this.spawnPoints.push(spawnNorth);
+        let spawnWest = new SpawnPoint({
+            pos: {
+                x:this.terrainOrigin.x - (9 * this.floorTileOffset.x), 
+                y:this.terrainOrigin.y + (8 * this.floorTileOffset.y)
+            }
+        });
+        this.spawnPoints.push(spawnWest);
+        let spawnEast = new SpawnPoint({
+            pos: {
+                x:this.terrainOrigin.x + (9 * this.floorTileOffset.x), 
+                y:this.terrainOrigin.y + (8 * this.floorTileOffset.y)
+            }
+        });
+        this.spawnPoints.push(spawnEast);
+        let spawnSouth = new SpawnPoint({
+            pos: {
+                x:this.terrainOrigin.x, 
+                y:this.terrainOrigin.y + (17 * this.floorTileOffset.y)
+            }
+        });
+        this.spawnPoints.push(spawnSouth);
     }
 
     addObjects() {
