@@ -43,8 +43,8 @@ export default class Scene {
         this.hitDetection();
         this.drawObjects(this.ctx);
         // this.drawHitboxes(this.ctx); //for debugging
-        this.drawBoundaries(this.ctx); //for debugging
-        this.drawSpawnPoints(this.ctx); //for debugging
+        // this.drawBoundaries(this.ctx); //for debugging
+        // this.drawSpawnPoints(this.ctx); //for debugging
         // this.checkCollisions();
     }
 
@@ -76,6 +76,11 @@ export default class Scene {
         if (keyCodes.includes(74)) { //74 = 'j'
             this.player.changeState("attack");
         }
+        if (keyCodes.includes(73)) { //73 = 'i'
+            this.player.strafe = true;
+        } else {
+            this.player.strafe = false;
+        }
     }
 
     processWasd(keyCodes) {
@@ -83,7 +88,7 @@ export default class Scene {
         let reducedWasd = intersect(wasd, keyCodes).slice(0,2);
         let wasdSum = reducedWasd.reduce((acc, el) => {return acc + el}, 0);
         if (wasdSum === 133 || wasdSum === 170) wasdSum = 0;
-        if (wasdSum !== 0 && !this.player.stateLock) this.player.dir = wasdSum;
+        if (wasdSum !== 0 && !this.player.stateLock && !this.player.strafe) this.player.dir = wasdSum;
         if (wasdSum === 0) {
             this.player.changeState("idle");
         } else {
@@ -112,29 +117,19 @@ export default class Scene {
         };
         this.player.collisionCorrection.x = 0;
         this.player.collisionCorrection.y = 0;
-        this.backgroundStatic.forEach((bg) => {
-            bg.pos.x += dpos.x;
-            bg.pos.y += dpos.y;
-        })
-        this.gameObjects.forEach((go) => {
-            go.pos.x += dpos.x;
-            go.pos.y += dpos.y;
-        })
-        this.hitboxes.forEach((hb) => {
-            hb.pos.x += dpos.x;
-            hb.pos.y += dpos.y;
-        })
-        this.spawnPoints.forEach((sp) => {
-            sp.pos.x += dpos.x;
-            sp.pos.y += dpos.y;
-        })
-        this.boundaries.forEach((bd) => {
-            bd.pos.x += dpos.x;
-            bd.pos.y += dpos.y;
-        })
-        this.foregroundStatic.forEach((fg) => {
-            fg.pos.x += dpos.x;
-            fg.pos.y += dpos.y;
+        let sets = [
+            this.backgroundStatic, 
+            this.gameObjects, 
+            this.hitboxes, 
+            this.spawnPoints, 
+            this.boundaries, 
+            this.foregroundStatic
+        ];
+        sets.forEach((set) => {
+            set.forEach((el) => {
+                el.pos.x += dpos.x;
+                el.pos.y += dpos.y;
+            })
         })
     }
 

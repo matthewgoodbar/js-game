@@ -3,8 +3,8 @@ import Hitbox from './hitbox.js';
 import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
 
 const CONST = {
-    "SPEED": 300,
-    "HEALTH": 3,
+    "SPEED": 400,
+    "HEALTH": 10,
 }
 
 export default class Player extends Actor {
@@ -14,17 +14,21 @@ export default class Player extends Actor {
             pos: pos, 
             r: 40, 
             img: playerSprites[148]['idle'],
-            health: 3,
+            health: CONST["HEALTH"],
             speed: CONST["SPEED"]
         });
         this.scene = scene;
         this.mockPush = {x:0, y:0};
         this.collisionCorrection = {x:0, y:0};
         this.unscaledSpeed = this.speed;
+        this.strafe = false;
     }
 
     tick(dt) {
         super.tick(dt);
+        if (this.strafe) {
+            this.speed = this.unscaledSpeed * 0.3;
+        }
     }
 
     idle() {
