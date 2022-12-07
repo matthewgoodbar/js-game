@@ -64,11 +64,11 @@ const loadEnemySprites = async () => {
 const loadEffectSprites = async () => {
     let path = '../assets/effects';
     let names = [
-        
+        'spawn_1', 'spawn_2', 'spawn_3'
     ];
     names.forEach((name) => {
         let img = new Image();
         img.src = `${path}/${name}.png`;
-        bgSprites[name] = img;
+        effectSprites[name] = img;
     })
 };

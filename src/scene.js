@@ -113,7 +113,8 @@ export default class Scene {
 
     tickStateMachines(dt) {
         this.player.tick(dt);
-        this.gameObjects.forEach((go) => go.tick(dt))
+        let tickables = [...this.gameObjects, ...this.spawnPoints];
+        tickables.forEach((go) => go.tick(dt))
     }
 
     getInputs() {
@@ -227,7 +228,7 @@ export default class Scene {
             go.draw(ctx);
         })
         //draw actors based off y pos
-        let actors = [...this.gameObjects, ...this.effects, this.player]; //actors = all game objects including player
+        let actors = [...this.gameObjects, ...this.spawnPoints, ...this.effects, this.player]; //actors = all game objects including player
         actors = actors.sort((a,b) => (a.pos.y > b.pos.y) ? 1 : -1); //sort based off y-pos
         for (let i = 0; i < actors.length; i++) { //loop thru actors, render furthest back FIRST
             actors[i].draw(ctx);

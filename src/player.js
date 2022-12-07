@@ -1,12 +1,11 @@
 import Actor from './actor.js';
-import Hitbox from './hitbox.js';
-import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
+import * as utils from './utils.js';
 
 const CONST = {
     "SPEED": 400,
-    "HEALTH": 10,
-    "MAXHEALTH": 10,
-    "MAXPOTS": 5
+    "HEALTH": 5,
+    "MAXHEALTH": 5,
+    "MAXPOTS": 3
 }
 
 export default class Player extends Actor {
@@ -86,14 +85,14 @@ export default class Player extends Actor {
     }
 
     pushBack(factor, dt) {
-        let pushVector = dirToVector(this.hitBy.dir);
-        pushVector = scaleVector(pushVector, -1);
+        let pushVector = utils.dirToVector(this.hitBy.dir);
+        pushVector = utils.scaleVector(pushVector, -1);
         this.mockPush.x = pushVector.x * factor * dt * -1;
         this.mockPush.y = pushVector.y * factor * dt * -1;
     }
 
     moving() {
-        this.speed = this.unscaledSpeed * dirScaleFactor(this.dir);
+        this.speed = this.unscaledSpeed * utils.dirScaleFactor(this.dir);
         this.stateLock = false;
         let timeElapsed = (Date.now() - this.timeEnteredState) % 800;
         if (timeElapsed < 200) {
@@ -134,7 +133,7 @@ export default class Player extends Actor {
 
     collisionHandle(bd) {
         let error = Math.abs(bd.distToObj(this) - this.r);
-        let correction = scaleVector({x:bd.normal.x,y:bd.normal.y}, error);
+        let correction = utils.scaleVector({x:bd.normal.x,y:bd.normal.y}, error);
         this.collisionCorrection.x += correction.x;
         this.collisionCorrection.y += correction.y;
     }
