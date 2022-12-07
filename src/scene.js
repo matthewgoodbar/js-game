@@ -5,6 +5,7 @@ import Actor from "./actor.js";
 import Enemy from "./enemy.js";
 import Player from "./player.js";
 import SpawnPoint from "./spawnpoint.js";
+import Hud from "./hud.js";
 
 export default class Scene {
     constructor(game) {
@@ -20,16 +21,19 @@ export default class Scene {
         this.player = new Player(this.center, this);
         this.foregroundStatic = [];
         this.floorTileOffset = {x:100,y:57};
+        this.roundStart = false;
 
         // this.addObjects();
         this.addBackgroundStatic();
         this.addBoundaries();
         this.addSpawnPoints();
 
-        // setInterval(() => {
-        //     let sp = this.spawnPoints[randInt(this.spawnPoints.length)];
-        //     sp.spawnEnemy();
-        // }, 3000)
+        this.hud = new Hud(this);
+
+        setInterval(() => {
+            let sp = this.spawnPoints[randInt(this.spawnPoints.length)];
+            sp.spawnEnemy();
+        }, 3000)
     }
     
     run(dt) {
@@ -42,6 +46,7 @@ export default class Scene {
         this.translateObjects(dt);
         this.hitDetection();
         this.drawObjects(this.ctx);
+        this.drawHud(this.ctx);
         // this.drawHitboxes(this.ctx); //for debugging
         // this.drawBoundaries(this.ctx); //for debugging
         // this.drawSpawnPoints(this.ctx); //for debugging
@@ -188,6 +193,10 @@ export default class Scene {
         this.foregroundStatic.forEach((go) => {
             go.draw(ctx);
         })
+    }
+
+    drawHud(ctx) {
+        this.hud.draw(ctx);
     }
 
     drawHitboxes(ctx) {
