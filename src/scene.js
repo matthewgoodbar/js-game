@@ -45,7 +45,12 @@ export default class Scene {
         // console.log(dt);
         // console.log(this.player.health);
         if (this.gameOver) {
-
+            let keyCodes = key.getPressedKeyCodes();
+            if (keyCodes.includes(82)) {
+                this.game.restart();
+            }
+            this.drawObjects(this.ctx);
+            this.drawHud(this.ctx);
         } else {
             if (this.gameStart) this.incrementScore(dt);
             this.tickStateMachines(dt);
@@ -65,11 +70,16 @@ export default class Scene {
     startGame() {
         if (!this.gameStart) {
             this.gameStart = true;
-            setInterval(() => {
+            this.spawnInterval = setInterval(() => {
                 let sp = this.spawnPoints[randInt(this.spawnPoints.length)];
                 sp.spawnEnemy();
-            }, 3000)
+            }, 2500)
         }
+    }
+
+    endGame() {
+        this.gameOver = true;
+        clearInterval(this.spawnInterval);
     }
 
     addGameObject(obj) {

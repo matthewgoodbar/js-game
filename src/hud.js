@@ -6,6 +6,10 @@ export default class Hud {
     }
 
     draw(ctx) {
+        if (this.scene.gameOver) {
+            this._gameOverScreen(ctx);
+            return;
+        }
         let dim = this.dim;
         let fontSize = 40;
         let leftJust = 40;
@@ -15,6 +19,7 @@ export default class Hud {
         let potionStr = `Potions: ${this.player.potions}`;
         
         ctx.font = `italic ${fontSize}px Times New Roman`;
+        ctx.textAlign = "left";
         ctx.strokeStyle = "black";
         ctx.lineWidth = 4;
         ctx.fillStyle = this.player.color;
@@ -29,5 +34,37 @@ export default class Hud {
 
         ctx.strokeText(scoreStr, leftJust, dim.y - 50);
         ctx.fillText(scoreStr, leftJust, dim.y - 50);
+    }
+
+    _gameOverScreen(ctx) {
+        let dim = this.dim;
+        let leftJust = 40;
+        
+        let fontSize = 80;
+        ctx.font = `italic ${fontSize}px Times New Roman`;
+        ctx.textAlign = "center";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 4;
+        ctx.fillStyle = "white";
+        
+        let gameOverText = "GAME OVER"
+        ctx.strokeText(gameOverText, dim.x / 2, dim.y / 2 - 40);
+        ctx.fillText(gameOverText, dim.x / 2, dim.y / 2 - 40);
+
+        fontSize = 40;
+        ctx.font = `italic ${fontSize}px Times New Roman`;
+
+        let decoration = "---";
+        ctx.strokeText(decoration, dim.x / 2, dim.y / 2);
+        ctx.fillText(decoration, dim.x / 2, dim.y / 2);
+        
+        let firstFlavor = `You scored ${this.scene.score} points`;
+        ctx.strokeText(firstFlavor, dim.x / 2, dim.y / 2 + 40);
+        ctx.fillText(firstFlavor, dim.x / 2, dim.y / 2 + 40);
+
+        let secondFlavor = `and defeated ${this.player.killCount} enemies.`;
+        ctx.strokeText(secondFlavor, dim.x / 2, dim.y / 2 + 100);
+        ctx.fillText(secondFlavor, dim.x / 2, dim.y / 2 + 100);
+
     }
 }

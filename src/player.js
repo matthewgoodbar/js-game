@@ -4,7 +4,7 @@ import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
 
 const CONST = {
     "SPEED": 400,
-    "HEALTH": 10,
+    "HEALTH": 1,
     "MAXHEALTH": 10,
     "MAXPOTS": 5
 }
@@ -26,6 +26,7 @@ export default class Player extends Actor {
         this.unscaledSpeed = this.speed;
         this.strafe = false;
         this.potions = 3;
+        this.killCount = 0;
     }
 
     tick(dt) {
@@ -67,8 +68,10 @@ export default class Player extends Actor {
         }
     }
 
-    // hit(hb) {
-    // }
+    hit(hb) {
+        super.hit(hb);
+        if (this.health <= 0) this.scene.endGame();
+    }
 
     _hit(dt) {
         let timeElapsed = Date.now() - this.timeHit;

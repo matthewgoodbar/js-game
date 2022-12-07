@@ -6,7 +6,7 @@ const CONST = {
     "HEALTH": 3,
     "RADIUS": 40,
     "AGGRO": 120,
-    "VALUE": 1000
+    "VALUE": 200
 }
 
 export default class Enemy extends Actor {
@@ -95,6 +95,7 @@ export default class Enemy extends Actor {
         } else {
             this.scene.removeGameObject(this);
             this.scene.score += CONST["VALUE"];
+            this.player.killCount++;
         }
     }
     
