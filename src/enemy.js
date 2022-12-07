@@ -51,7 +51,7 @@ export default class Enemy extends Actor {
         this._setDirFromAngle();
         this.stateLock = true;
         this.vel = {x:0, y:0};
-        let timeElapsed = Date.now() - this.timeEnteredState;
+        let timeElapsed = (Date.now() - this.timeEnteredState);
         if (timeElapsed < 400) { //wind up
             this.setSprite("attack_1");
             this.color = "white";
@@ -142,5 +142,17 @@ export default class Enemy extends Actor {
         }
     }
 
+    disperse(go, overlap) {
+        let error = Math.abs(utils.dist(go.pos, this.pos) - (go.r + this.r - overlap));
+        let goToMe = utils.scaleVector(utils.norm({
+            x: this.pos.x - go.pos.x,
+            y: this.pos.y - go.pos.y
+        }), error);
+        let meToGo = utils.scaleVector(goToMe, -1);
+        this.pos.x += goToMe.x;
+        this.pos.y += goToMe.y;
+        go.pos.x += meToGo.x;
+        go.pos.y += meToGo.y;
+    }
     
 }

@@ -114,4 +114,8 @@ export default class Actor extends Sprite {
         this.pos.x += correction.x;
         this.pos.y += correction.y;
     }
+
+    disperse() {
+        
+    }
 }

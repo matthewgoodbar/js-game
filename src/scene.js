@@ -33,8 +33,8 @@ export default class Scene {
         this.translateObjects(dt);
         this.hitDetection();
         this.drawObjects(this.ctx);
-        this.drawHitboxes(this.ctx); //for debugging
-        this.drawBoundaries(this.ctx); //for debugging
+        // this.drawHitboxes(this.ctx); //for debugging
+        // this.drawBoundaries(this.ctx); //for debugging
         // this.checkCollisions();
     }
 
@@ -150,6 +150,14 @@ export default class Scene {
                 this.player.collisionHandle(bd);
             }
         })
+        let enemyOverlap = 20;
+        for (let i = 1; i < this.gameObjects.length; i++) {
+            for (let j = 0; j < i; j++) {
+                let go1 = this.gameObjects[i];
+                let go2 = this.gameObjects[j];
+                if (dist(go1.pos, go2.pos) < (go1.r + go2.r) - enemyOverlap) go1.disperse(go2, enemyOverlap);
+            }
+        }
     }
 
     drawObjects(ctx) {
@@ -306,26 +314,26 @@ export default class Scene {
     }
 
     addObjects() {
-        // this.gameObjects.push(new Enemy(
-        //     {
-        //         x: this.game.dimx / 2 - 100,
-        //         y: this.game.dimy / 2 + 50
-        //     },
-        //     this
-        // ));
-        // this.gameObjects.push(new Enemy(
-        //     {
-        //         x: this.game.dimx / 2 + 100,
-        //         y: this.game.dimy / 2 + 50
-        //     },
-        //     this
-        // ));
-        // this.gameObjects.push(new Enemy(
-        //     {
-        //         x: this.game.dimx / 2 + 50,
-        //         y: this.game.dimy / 2 + 150
-        //     },
-        //     this
-        // ));
+        this.gameObjects.push(new Enemy(
+            {
+                x: this.game.dimx / 2 - 100,
+                y: this.game.dimy / 2 + 50
+            },
+            this
+        ));
+        this.gameObjects.push(new Enemy(
+            {
+                x: this.game.dimx / 2 + 100,
+                y: this.game.dimy / 2 + 50
+            },
+            this
+        ));
+        this.gameObjects.push(new Enemy(
+            {
+                x: this.game.dimx / 2 + 50,
+                y: this.game.dimy / 2 + 150
+            },
+            this
+        ));
     }
 }
