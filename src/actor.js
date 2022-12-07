@@ -1,9 +1,10 @@
 import Sprite from "./sprite.js";
 import Hitbox from "./hitbox.js";
+import Effect from "./effect.js";
 import { dirToVector, scaleVector, dirScaleFactor } from './utils.js';
 
 export default class Actor extends Sprite {
-    constructor({vel, pos, r, health, speed, img, dir, state}) {
+    constructor({vel, pos, r, health, speed, img, dir, state}, scene) {
         super({vel: vel, pos: pos, r: r, img: img});
 
         if (!health) { this.health = 5;}
@@ -17,6 +18,7 @@ export default class Actor extends Sprite {
         this.stateLock = false;
         this.timeEnteredState = new Date();
 
+        this.scene = scene;
         this.hitbox = undefined;
         this.hitBy = undefined;
         this.timeHit = undefined;
@@ -73,7 +75,20 @@ export default class Actor extends Sprite {
             this.hitBy = hb;
             this.timeHit = Date.now();
             if (this.health > 0) this.health--;
+            this.addHitEffect(hb, 'hit');
         }
+    }
+
+    addHitEffect(hb, sprite) {
+        let effectPos = scaleVector(dirToVector(hb.dir), 20);
+        new Effect({
+            pos: {
+                x:effectPos.x + this.pos.x,
+                y:effectPos.y + this.pos.y
+            },
+            sprite: sprite,
+            lifespan: 200
+        }, this.scene);
     }
 
     _hit(dt) {

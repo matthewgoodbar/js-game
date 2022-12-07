@@ -4,7 +4,7 @@ import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
 
 const CONST = {
     "SPEED": 400,
-    "HEALTH": 1,
+    "HEALTH": 10,
     "MAXHEALTH": 10,
     "MAXPOTS": 5
 }
@@ -19,8 +19,7 @@ export default class Player extends Actor {
             health: CONST["HEALTH"],
             speed: CONST["SPEED"],
             color: "white"
-        });
-        this.scene = scene;
+        }, scene);
         this.mockPush = {x:0, y:0};
         this.collisionCorrection = {x:0, y:0};
         this.unscaledSpeed = this.speed;

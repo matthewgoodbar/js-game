@@ -46,25 +46,33 @@ export default class Hud {
         ctx.strokeStyle = "black";
         ctx.lineWidth = 4;
         ctx.fillStyle = "white";
+
+        let fixY = dim.y / 2 - 40;
         
         let gameOverText = "GAME OVER"
-        ctx.strokeText(gameOverText, dim.x / 2, dim.y / 2 - 40);
-        ctx.fillText(gameOverText, dim.x / 2, dim.y / 2 - 40);
+        ctx.strokeText(gameOverText, dim.x / 2, fixY - 40);
+        ctx.fillText(gameOverText, dim.x / 2, fixY - 40);
 
         fontSize = 40;
         ctx.font = `italic ${fontSize}px Times New Roman`;
 
-        let decoration = "---";
-        ctx.strokeText(decoration, dim.x / 2, dim.y / 2);
-        ctx.fillText(decoration, dim.x / 2, dim.y / 2);
+        let decoration = "~";
+        ctx.strokeText(decoration, dim.x / 2, fixY);
+        ctx.fillText(decoration, dim.x / 2, fixY);
         
         let firstFlavor = `You scored ${this.scene.score} points`;
-        ctx.strokeText(firstFlavor, dim.x / 2, dim.y / 2 + 40);
-        ctx.fillText(firstFlavor, dim.x / 2, dim.y / 2 + 40);
+        ctx.strokeText(firstFlavor, dim.x / 2, fixY + 40);
+        ctx.fillText(firstFlavor, dim.x / 2, fixY + 40);
 
         let secondFlavor = `and defeated ${this.player.killCount} enemies.`;
-        ctx.strokeText(secondFlavor, dim.x / 2, dim.y / 2 + 100);
-        ctx.fillText(secondFlavor, dim.x / 2, dim.y / 2 + 100);
+        ctx.strokeText(secondFlavor, dim.x / 2, fixY + 100);
+        ctx.fillText(secondFlavor, dim.x / 2, fixY + 100);
+
+        fontSize = 30;
+        ctx.font = `italic ${fontSize}px Times New Roman`;
+        let restartFlavor = "Press r to restart.";
+        ctx.strokeText(restartFlavor, dim.x / 2, fixY + 160);
+        ctx.fillText(restartFlavor, dim.x / 2, fixY + 160);
 
     }
 }

@@ -18,6 +18,7 @@ export default class Scene {
         this.spawnPoints = [];
         this.backgroundStatic = [];
         this.gameObjects = [];
+        this.effects = [];
         this.hitboxes = [];
         this.player = new Player(this.center, this);
         this.foregroundStatic = [];
@@ -98,6 +99,14 @@ export default class Scene {
         this.hitboxes.splice(this.hitboxes.indexOf(hb), 1);
     }
 
+    addEffect(ef) {
+        if (!this.effects.includes(ef)) this.effects.push(ef);
+    }
+
+    removeEffect(ef) {
+        this.effects.splice(this.effects.indexOf(ef), 1);
+    }
+
     incrementScore(dt) {
         this.score += Math.floor(100 * dt);
     }
@@ -157,7 +166,8 @@ export default class Scene {
         this.player.collisionCorrection.y = 0;
         let sets = [
             this.backgroundStatic, 
-            this.gameObjects, 
+            this.gameObjects,
+            this.effects,
             this.hitboxes, 
             this.spawnPoints, 
             this.boundaries, 
@@ -217,7 +227,7 @@ export default class Scene {
             go.draw(ctx);
         })
         //draw actors based off y pos
-        let actors = [...this.gameObjects, this.player]; //actors = all game objects including player
+        let actors = [...this.gameObjects, ...this.effects, this.player]; //actors = all game objects including player
         actors = actors.sort((a,b) => (a.pos.y > b.pos.y) ? 1 : -1); //sort based off y-pos
         for (let i = 0; i < actors.length; i++) { //loop thru actors, render furthest back FIRST
             actors[i].draw(ctx);

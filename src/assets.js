@@ -1,11 +1,13 @@
 window.bgSprites = {};
 window.playerSprites = {};
 window.enemySprites = {};
+window.effectSprites = {};
 
 export const loadAssets = async () => {
     await loadBackgroundSprites();
     await loadPlayerSprites();
     await loadEnemySprites();
+    await loadEffectSprites();
     return true;
 };
 
@@ -56,5 +58,17 @@ const loadEnemySprites = async () => {
             img.src = `${path}/${dir}/${frame}.png`;
             enemySprites[dir][frame] = img;
         })
+    })
+};
+
+const loadEffectSprites = async () => {
+    let path = '../assets/effects';
+    let names = [
+        
+    ];
+    names.forEach((name) => {
+        let img = new Image();
+        img.src = `${path}/${name}.png`;
+        bgSprites[name] = img;
     })
 };

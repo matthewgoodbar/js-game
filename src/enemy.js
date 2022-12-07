@@ -19,8 +19,7 @@ export default class Enemy extends Actor {
             health: CONST["HEALTH"],
             speed: CONST["SPEED"],
             state: "moving"
-        })
-        this.scene = scene;
+        }, scene);
         this.player = this.scene.player;
         this.absoluteSpeed = this.speed;
         this.velVector = {x:0, y:0};
