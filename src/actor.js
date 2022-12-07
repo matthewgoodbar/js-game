@@ -81,11 +81,10 @@ export default class Actor extends Sprite {
         if (timeElapsed < 400) {
             this.pushBack(400 - timeElapsed, dt);
             this.color = "red";
-            this.img.style.opacity = 0;
         } else {
             this.vel = {x:0,y:0}; 
             this.hitBy = undefined;
-            this.color = "green";
+            this.color = "white";
         }
     }
 

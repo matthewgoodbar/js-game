@@ -6,7 +6,7 @@ export default class Sprite {
         else {this.pos = pos;}
         if (!r) { this.r = 20;}
         else {this.r = r;}
-        if (!color) { this.color = "green";}
+        if (!color) { this.color = "white";}
         else {this.color = color;}
         this.img = img;
         // this.sprite = new Image(); 

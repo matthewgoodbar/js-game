@@ -6,6 +6,7 @@ import Enemy from "./enemy.js";
 import Player from "./player.js";
 import SpawnPoint from "./spawnpoint.js";
 import Hud from "./hud.js";
+import Totem from "./totem.js";
 
 export default class Scene {
     constructor(game) {
@@ -28,29 +29,47 @@ export default class Scene {
         this.addBoundaries();
         this.addSpawnPoints();
 
-        this.hud = new Hud(this);
+        this.gameStart = false;
+        this.gameOver = false;
+        this.score = 0;
 
-        setInterval(() => {
-            let sp = this.spawnPoints[randInt(this.spawnPoints.length)];
-            sp.spawnEnemy();
-        }, 3000)
+        this.hud = new Hud(this);
+        this.gameObjects.push(new Totem(
+            {x: this.terrainOrigin.x + (2 * this.floorTileOffset.x),
+                 y:this.terrainOrigin.y + (4 * this.floorTileOffset.y)},
+            this
+        ));
     }
     
     run(dt) {
         // console.log(dt);
         // console.log(this.player.health);
-        this.tickStateMachines(dt);
-        this.getInputs();
-        this.checkCollisions();
-        this.moveObjects(dt);
-        this.translateObjects(dt);
-        this.hitDetection();
-        this.drawObjects(this.ctx);
-        this.drawHud(this.ctx);
+        if (this.gameOver) {
+
+        } else {
+            if (this.gameStart) this.incrementScore(dt);
+            this.tickStateMachines(dt);
+            this.getInputs();
+            this.checkCollisions();
+            this.moveObjects(dt);
+            this.translateObjects(dt);
+            this.hitDetection();
+            this.drawObjects(this.ctx);
+            this.drawHud(this.ctx);
+        }
         // this.drawHitboxes(this.ctx); //for debugging
         // this.drawBoundaries(this.ctx); //for debugging
         // this.drawSpawnPoints(this.ctx); //for debugging
-        // this.checkCollisions();
+    }
+
+    startGame() {
+        if (!this.gameStart) {
+            this.gameStart = true;
+            setInterval(() => {
+                let sp = this.spawnPoints[randInt(this.spawnPoints.length)];
+                sp.spawnEnemy();
+            }, 3000)
+        }
     }
 
     addGameObject(obj) {
@@ -67,6 +86,10 @@ export default class Scene {
 
     removeHitbox(hb) {
         this.hitboxes.splice(this.hitboxes.indexOf(hb), 1);
+    }
+
+    incrementScore(dt) {
+        this.score += Math.floor(100 * dt);
     }
 
     tickStateMachines(dt) {

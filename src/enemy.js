@@ -5,7 +5,8 @@ const CONST = {
     "SPEED": 60,
     "HEALTH": 3,
     "RADIUS": 40,
-    "AGGRO": 120
+    "AGGRO": 120,
+    "VALUE": 1000
 }
 
 export default class Enemy extends Actor {
@@ -93,6 +94,7 @@ export default class Enemy extends Actor {
             this.setSprite('death_4');
         } else {
             this.scene.removeGameObject(this);
+            this.scene.score += CONST["VALUE"];
         }
     }
     

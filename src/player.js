@@ -5,6 +5,8 @@ import { scaleVector, dirToVector, dirScaleFactor } from './utils.js';
 const CONST = {
     "SPEED": 400,
     "HEALTH": 10,
+    "MAXHEALTH": 10,
+    "MAXPOTS": 5
 }
 
 export default class Player extends Actor {
@@ -15,13 +17,15 @@ export default class Player extends Actor {
             r: 40, 
             img: playerSprites[148]['idle'],
             health: CONST["HEALTH"],
-            speed: CONST["SPEED"]
+            speed: CONST["SPEED"],
+            color: "white"
         });
         this.scene = scene;
         this.mockPush = {x:0, y:0};
         this.collisionCorrection = {x:0, y:0};
         this.unscaledSpeed = this.speed;
         this.strafe = false;
+        this.potions = 3;
     }
 
     tick(dt) {
@@ -75,7 +79,7 @@ export default class Player extends Actor {
         } else {
             this.mockPush = {x:0,y:0}; 
             this.hitBy = undefined;
-            this.color = "green";
+            this.color = "white";
         }
     }
 
@@ -107,6 +111,23 @@ export default class Player extends Actor {
 
     death() {
 
+    }
+
+    addHealth(amt) {
+        this.health += amt;
+        if (this.health >= CONST["MAXHEALTH"]) this.health = CONST["MAXHEALTH"];
+    }
+
+    addPotion() {
+        this.potions++;
+        if (this.potions >= CONST["MAXPOTS"]) this.potions = CONST["MAXPOTS"];
+    }
+
+    usePotion() {
+        if (this.potions > 0) {
+            this.addHealth(3);
+            this.potions--;
+        }
     }
 
     collisionHandle(bd) {
