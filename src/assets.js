@@ -27,7 +27,8 @@ const loadPlayerSprites = async () => {
     let frames = [
         'attack_1', 'attack_2', 'attack_3', 
         'idle', 
-        'move_1', 'move_2', 'move_3', 'move_4'
+        'move_1', 'move_2', 'move_3', 'move_4',
+        'strafe_1', 'strafe_2', 'strafe_3'
     ];
     dirs.forEach((dir) => {
         playerSprites[dir] = {};

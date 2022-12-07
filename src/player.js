@@ -35,6 +35,9 @@ export default class Player extends Actor {
         this.stateLock = false;
         // console.log("i am idle!");
         this.setSprite('idle');
+        if (this.strafe) {
+            this.setSprite('strafe_1');
+        }
     }
 
     attack() {
@@ -89,12 +92,16 @@ export default class Player extends Actor {
         let timeElapsed = (Date.now() - this.timeEnteredState) % 800;
         if (timeElapsed < 200) {
             this.setSprite('move_1');
+            if (this.strafe) this.setSprite('strafe_3');
         } else if (timeElapsed < 400) {
             this.setSprite('move_2');
+            if (this.strafe) this.setSprite('strafe_2');
         } else if (timeElapsed < 600) {
             this.setSprite('move_3');
+            if (this.strafe) this.setSprite('strafe_1');
         } else {
             this.setSprite('move_4');
+            if (this.strafe) this.setSprite('strafe_2');
         }
     }
 
