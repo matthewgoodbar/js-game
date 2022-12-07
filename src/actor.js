@@ -24,7 +24,6 @@ export default class Actor extends Sprite {
         this.states = {
             "idle": ["attack", "moving", "death"],
             "attack": ["idle", "death"],
-            // "hit": ["idle", "death"],
             "moving": ["idle", "attack", "death"],
             "death": []
         };
@@ -41,8 +40,12 @@ export default class Actor extends Sprite {
     }
 
     changeState(newState) {
-        if (!this.stateLock){
+        if (!this.stateLock || newState === 'death'){
             if (this.states[this.state].includes(newState)) {
+                if (this.hitbox) {
+                    this.scene.removeHitbox(this.hitbox);
+                    this.hitbox = undefined;
+                }
                 this.state = newState;
                 this.timeEnteredState = new Date();
             }

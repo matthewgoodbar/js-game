@@ -21,7 +21,7 @@ export default class Scene {
         this.foregroundStatic = [];
         this.floorTileOffset = {x:100,y:57};
 
-        this.addObjects();
+        // this.addObjects();
         this.addBackgroundStatic();
         this.addBoundaries();
         this.addSpawnPoints();
