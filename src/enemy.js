@@ -4,6 +4,7 @@ import Actor from './actor.js';
 const CONST = {
     "SPEED": 60,
     "HEALTH": 3,
+    "RADIUS": 40,
     "AGGRO": 120
 }
 
@@ -12,10 +13,10 @@ export default class Enemy extends Actor {
         super({
             vel: {x:0,y:0},
             pos: pos,
-            r: 40,
+            r: CONST["RADIUS"],
             img: undefined,
-            health: 3,
-            speed: 60,
+            health: CONST["HEALTH"],
+            speed: CONST["SPEED"],
             state: "moving"
         })
         this.scene = scene;

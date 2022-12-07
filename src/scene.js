@@ -25,6 +25,11 @@ export default class Scene {
         this.addBackgroundStatic();
         this.addBoundaries();
         this.addSpawnPoints();
+
+        // setInterval(() => {
+        //     let sp = this.spawnPoints[randInt(this.spawnPoints.length)];
+        //     sp.spawnEnemy();
+        // }, 3000)
     }
     
     run(dt) {
@@ -38,7 +43,7 @@ export default class Scene {
         this.hitDetection();
         this.drawObjects(this.ctx);
         // this.drawHitboxes(this.ctx); //for debugging
-        // this.drawBoundaries(this.ctx); //for debugging
+        this.drawBoundaries(this.ctx); //for debugging
         this.drawSpawnPoints(this.ctx); //for debugging
         // this.checkCollisions();
     }
@@ -329,31 +334,29 @@ export default class Scene {
     }
 
     addSpawnPoints() {
-        let spawnNorth = new SpawnPoint({
-            pos: {x:this.terrainOrigin.x, y:this.terrainOrigin.y - this.floorTileOffset.y}
-        });
-        this.spawnPoints.push(spawnNorth);
-        let spawnWest = new SpawnPoint({
-            pos: {
-                x:this.terrainOrigin.x - (9 * this.floorTileOffset.x), 
-                y:this.terrainOrigin.y + (8 * this.floorTileOffset.y)
-            }
-        });
-        this.spawnPoints.push(spawnWest);
-        let spawnEast = new SpawnPoint({
-            pos: {
-                x:this.terrainOrigin.x + (9 * this.floorTileOffset.x), 
-                y:this.terrainOrigin.y + (8 * this.floorTileOffset.y)
-            }
-        });
-        this.spawnPoints.push(spawnEast);
-        let spawnSouth = new SpawnPoint({
-            pos: {
-                x:this.terrainOrigin.x, 
-                y:this.terrainOrigin.y + (17 * this.floorTileOffset.y)
-            }
-        });
-        this.spawnPoints.push(spawnSouth);
+        let start = this.terrainOrigin;
+        let offset = this.floorTileOffset;
+        let points = [
+            {x:start.x, y:start.y - offset.y}, //north
+            {x:start.x - (9 * offset.x), 
+                y:start.y + (8 * offset.y)}, //west
+            {x:start.x + (9 * offset.x), 
+                y:start.y + (8 * offset.y)}, //east
+            {x:start.x, 
+            y:start.y + (17 * offset.y)}, //south
+            {x:start.x - (4.5 * offset.x),
+                y:start.y + (3.5 * offset.y)}, //north west
+            {x:start.x + (4.5 * offset.x),
+                y:start.y + (3.5 * offset.y)}, //north east
+            {x:start.x + (4.5 * offset.x),
+                y:start.y + (12.5 * offset.y)}, //south east
+            {x:start.x - (4.5 * offset.x),
+                y:start.y + (12.5 * offset.y)}, //south west
+        ];
+        points.forEach((point) => {
+            let sp = new SpawnPoint({pos: point}, this);
+            this.spawnPoints.push(sp);
+        })
     }
 
     addObjects() {
