@@ -28,14 +28,14 @@ export default class Scene {
         // console.log(this.player.health);
         this.tickStateMachines(dt);
         this.getInputs();
+        this.checkCollisions();
         this.moveObjects(dt);
         this.translateObjects(dt);
-        // this.checkCollisions();
         this.hitDetection();
         this.drawObjects(this.ctx);
         this.drawHitboxes(this.ctx); //for debugging
         this.drawBoundaries(this.ctx); //for debugging
-        this.checkCollisions();
+        // this.checkCollisions();
     }
 
     addGameObject(obj) {
@@ -97,9 +97,11 @@ export default class Scene {
         let speed = this.player.speed;
         let dpos = scaleVector(dir, speed * dt);
         dpos = {
-            x: dpos.x + this.player.mockPush.x,
-            y: dpos.y + this.player.mockPush.y
+            x: dpos.x + this.player.mockPush.x + this.player.collisionCorrection.x,
+            y: dpos.y + this.player.mockPush.y + this.player.collisionCorrection.y
         };
+        this.player.collisionCorrection.x = 0;
+        this.player.collisionCorrection.y = 0;
         this.backgroundStatic.forEach((bg) => {
             bg.pos.x += dpos.x;
             bg.pos.y += dpos.y;
@@ -139,10 +141,14 @@ export default class Scene {
 
     checkCollisions() {
         this.boundaries.forEach((bd) => {
+            //check for collision with game objects
             this.gameObjects.forEach((go) => {
-                 if (bd.distToObj(go) < go.r) go.collisionHandle(bd);
+                if (bd.distToObj(go) < go.r) go.collisionHandle(bd);
             })
-            if (bd.distToObj(this.player) < this.player.r) this.player.collisionHandle(bd);
+            //check for collision with player
+            if (bd.distToObj(this.player) < this.player.r) {
+                this.player.collisionHandle(bd);
+            }
         })
     }
 

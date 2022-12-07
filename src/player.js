@@ -18,9 +18,8 @@ export default class Player extends Actor {
             speed: CONST["SPEED"]
         });
         this.scene = scene;
-        // this.hitbox = undefined;
-        // this.hitBy = undefined;
         this.mockPush = {x:0, y:0};
+        this.collisionCorrection = {x:0, y:0};
         this.unscaledSpeed = this.speed;
     }
 
@@ -97,6 +96,13 @@ export default class Player extends Actor {
 
     death() {
 
+    }
+
+    collisionHandle(bd) {
+        let error = Math.abs(bd.distToObj(this) - this.r);
+        let correction = scaleVector({x:bd.normal.x,y:bd.normal.y}, error);
+        this.collisionCorrection.x += correction.x;
+        this.collisionCorrection.y += correction.y;
     }
 
     setSprite(frame) {
