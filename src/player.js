@@ -106,11 +106,14 @@ export default class Player extends Actor {
         if (this.blocking()){ //Player is blocking
             if (utils.blockedFromDir(this.dir, hb.dir)){ //block is successful
                 this.addHitEffect(hb, 'block');
+                this.successfulBlock = true;
             } else { //block is unsuccessful
                 super.blockCheck(hb);
+                this.successfulBlock = false;
             }
         } else { //Player is not blocking
             super.blockCheck(hb);
+            this.successfulBlock = false;
         }
     }
 
@@ -118,7 +121,7 @@ export default class Player extends Actor {
         let timeElapsed = Date.now() - this.timeHit;
         if (timeElapsed < 400) {
             this.pushBack(400 - timeElapsed, dt);
-            this.color = "red";
+            if (!this.successfulBlock) this.color = "red";
             this.img.style.opacity = 0;
         } else {
             this.mockPush = {x:0,y:0}; 
