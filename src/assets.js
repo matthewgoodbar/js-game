@@ -14,7 +14,7 @@ export const loadAssets = async () => {
 };
 
 const loadBackgroundSprites = async () => {
-    let path = '../assets/background';
+    let path = './assets/background';
     let names = [
         'ground0', 'ground1', 'archway0', 'wall0', 'totem_1', 'totem_2'
     ];
@@ -26,7 +26,7 @@ const loadBackgroundSprites = async () => {
 };
 
 const loadPlayerSprites = async () => {
-    let path = '../assets/player';
+    let path = './assets/player';
     let dirs = [148, 65, 152, 87, 155, 68, 151, 83];
     let frames = [
         'attack_1', 'attack_2', 'attack_3', 
@@ -46,7 +46,7 @@ const loadPlayerSprites = async () => {
 };
 
 const loadEnemySprites = async () => {
-    let path = '../assets/enemy';
+    let path = './assets/enemy';
     let dirs = [148, 65, 152, 87, 155, 68, 151, 83];
     let frames = [
         'attack_1', 'attack_2', 'attack_3', 'attack_4',
@@ -65,7 +65,7 @@ const loadEnemySprites = async () => {
 };
 
 const loadEffectSprites = async () => {
-    let path = '../assets/effects';
+    let path = './assets/effects';
     let names = [
         'spawn_1', 'spawn_2', 'spawn_3',
         'block_1', 'block_2', 'block_3',
@@ -79,7 +79,7 @@ const loadEffectSprites = async () => {
 };
 
 const loadSounds = async () => {
-    let path = '../assets/sounds';
+    let path = './assets/sounds';
     let names = [
         'attack1', 'attack2', 'hit1'
     ];
