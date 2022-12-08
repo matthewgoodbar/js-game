@@ -1,8 +1,8 @@
-[working title] is an isometric action survival game where you play as a lone knight trapped within the bowels of a cursed dunegon, doomed to be hunted by vengeful spirits.
+CATACOMB is an isometric action survival game where you play as a lone knight trapped within the bowels of a cursed dunegon, doomed to be hunted by vengeful spirits.
 Survive for as long as you can while you fend off the hordes of the undead and claim the high score!
 
 *\*Project spec\** \
-In [working title], players will be able to: \
+In CATACOMB, players will be able to: \
 -8-directional movement with WASD\
 -Melee attack in facing direction\
 -Traverse an enclosed arena\
