@@ -1,7 +1,7 @@
 import Sprite from "./sprite.js";
 import Hitbox from "./hitbox.js";
-import Effect from "./effect.js";
 import { dirToVector, scaleVector, dirScaleFactor } from './utils.js';
+import HitEffect from "./hiteffect.js";
 
 export default class Actor extends Sprite {
     constructor({vel, pos, r, health, speed, img, dir, state}, scene) {
@@ -80,19 +80,15 @@ export default class Actor extends Sprite {
     
     blockCheck(hb) { //overridden in Player
         if (this.health > 0) this.health--;
-        this.addHitEffect(hb, 'hit');
+        this.addHitEffect(hb);
     }
 
-    addHitEffect(hb, sprite) {
+    addHitEffect(hb) { //overridden in Player
         let effectPos = scaleVector(dirToVector(hb.dir), 20);
-        new Effect({
-            pos: {
+        new HitEffect({
                 x:effectPos.x + this.pos.x,
                 y:effectPos.y + this.pos.y
-            },
-            sprite: sprite,
-            lifespan: 200
-        }, this.scene);
+            }, this.scene, false);
     }
 
     _hit(dt) {

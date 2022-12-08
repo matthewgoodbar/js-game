@@ -1,4 +1,5 @@
 import Actor from './actor.js';
+import HitEffect from './hiteffect.js';
 import * as utils from './utils.js';
 
 const CONST = {
@@ -105,16 +106,26 @@ export default class Player extends Actor {
     blockCheck(hb) {
         if (this.blocking()){ //Player is blocking
             if (utils.blockedFromDir(this.dir, hb.dir)){ //block is successful
-                this.addHitEffect(hb, 'block');
+                this.addHitEffect(hb, true);
                 this.successfulBlock = true;
             } else { //block is unsuccessful
-                super.blockCheck(hb);
-                this.successfulBlock = false;
+                if (this.health > 0) this.health--;
+                this.addHitEffect(hb, false);
+                this.successfulBlock = undefined;
             }
         } else { //Player is not blocking
-            super.blockCheck(hb);
-            this.successfulBlock = false;
+            if (this.health > 0) this.health--;
+            this.addHitEffect(hb, false);
+            this.successfulBlock = undefined;
         }
+    }
+
+    addHitEffect(hb, block) {
+        let effectPos = utils.scaleVector(utils.dirToVector(hb.dir), 20);
+        new HitEffect({
+            x:effectPos.x + this.pos.x,
+            y:effectPos.y + this.pos.y
+        }, this.scene, block);
     }
 
     _hit(dt) {

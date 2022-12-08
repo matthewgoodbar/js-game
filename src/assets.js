@@ -64,7 +64,9 @@ const loadEnemySprites = async () => {
 const loadEffectSprites = async () => {
     let path = '../assets/effects';
     let names = [
-        'spawn_1', 'spawn_2', 'spawn_3'
+        'spawn_1', 'spawn_2', 'spawn_3',
+        'block_1', 'block_2', 'block_3',
+        'hit_1', 'hit_2', 'hit_3'
     ];
     names.forEach((name) => {
         let img = new Image();

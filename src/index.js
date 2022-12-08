@@ -13,7 +13,7 @@ const setSize = (size) => {
     canvas.height = screenSizes[size][1];
 }
 
-setSize("l");
+setSize("m");
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
