@@ -36,7 +36,7 @@ export default class Scene {
         this.hud = new Hud(this);
         this.gameObjects.push(new Totem(
             {x: this.terrainOrigin.x + (2 * this.floorTileOffset.x),
-                 y:this.terrainOrigin.y + (4 * this.floorTileOffset.y)},
+                 y:this.terrainOrigin.y + (5 * this.floorTileOffset.y)},
             this
         ));
     }
