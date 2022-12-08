@@ -4,7 +4,7 @@ html {
 }
 
 h1 {
-    font-size: 60pt;
+    font-size: 50pt;
 }
 
 #canvas-container {
@@ -13,6 +13,12 @@ h1 {
     align-items: center;
     width: 100%;
     height: 100%;
+}
+
+.help-text {
+    font-family: 'Times New Roman', Times, serif;
+    width: 200px;
+    font-size: 16pt;
 }
 
 #title {

@@ -89,6 +89,9 @@ export default class Actor extends Sprite {
                 x:effectPos.x + this.pos.x,
                 y:effectPos.y + this.pos.y
             }, this.scene, false);
+        if (this.scene.sound) {
+            new Audio('../assets/sounds/hit1.wav').play();
+        }
     }
 
     _hit(dt) {

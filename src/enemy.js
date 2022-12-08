@@ -56,6 +56,12 @@ export default class Enemy extends Actor {
         if (timeElapsed < 400) { //wind up
             this.setSprite("attack_1");
             this.color = "white";
+            if (this.scene.sound) {
+                if (!this.attackSoundPlayed) {
+                    this.attackSoundPlayed = true;
+                    new Audio('../assets/sounds/attack2.wav').play();
+                }
+            }
         } else if (timeElapsed < 800) { //spawn hitbox
             this.setSprite("attack_2");
             if (!this.hitbox){
@@ -74,6 +80,7 @@ export default class Enemy extends Actor {
             this.stateLock = false;
             this.color = "green";
             this.changeState("idle");
+            this.attackSoundPlayed = undefined;
         }
 
     }

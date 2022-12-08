@@ -32,6 +32,7 @@ export default class Scene {
         this.gameStart = false;
         this.gameOver = false;
         this.score = 0;
+        this.sound = false;
 
         this.hud = new Hud(this);
         this.gameObjects.push(new Totem(

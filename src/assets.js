@@ -2,12 +2,14 @@ window.bgSprites = {};
 window.playerSprites = {};
 window.enemySprites = {};
 window.effectSprites = {};
+window.sounds = {};
 
 export const loadAssets = async () => {
     await loadBackgroundSprites();
     await loadPlayerSprites();
     await loadEnemySprites();
     await loadEffectSprites();
+    // await loadSounds();
     return true;
 };
 
@@ -73,5 +75,16 @@ const loadEffectSprites = async () => {
         let img = new Image();
         img.src = `${path}/${name}.png`;
         effectSprites[name] = img;
+    })
+};
+
+const loadSounds = async () => {
+    let path = '../assets/sounds';
+    let names = [
+        'attack1', 'attack2', 'hit1'
+    ];
+    names.forEach((name) => {
+        let sound = new Audio(`${path}/${name}.wav`);
+        sounds[name] = sound;
     })
 };

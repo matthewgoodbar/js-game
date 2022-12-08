@@ -85,6 +85,7 @@ export default class Player extends Actor {
         if (timeElapsed < 200) {
             this.setSprite('attack_1');
             if (!this.hitbox) {
+                if (this.scene.sound) sounds['attack1'].play();
                 this.hitbox = this.createHitbox();
                 this.scene.addHitbox(this.hitbox);
             }
@@ -130,6 +131,13 @@ export default class Player extends Actor {
             x:effectPos.x + this.pos.x,
             y:effectPos.y + this.pos.y
         }, this.scene, block);
+        if (this.scene.sound) {
+            if (block) {
+
+            } else {
+                new Audio('../assets/sounds/hit1.wav').play();
+            }
+        }
     }
 
     _hit(dt) {
