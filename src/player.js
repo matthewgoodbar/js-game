@@ -59,15 +59,19 @@ export default class Player extends Actor {
 
     heal() {
         this.stateLock = true;
-        this.setSprite('idle');
         let timeElapsed = Date.now() - this.timeEnteredState;
-        if (timeElapsed < 200) {
-
-        } else if (timeElapsed < 400) {
+        if (timeElapsed < 800) {
+            this.setSprite('heal_1');
+        } else if (timeElapsed < 900) {
             if (!this.usedPotion){
                 this.usedPotion = true;
                 this.usePotion();
             }
+            this.setSprite('heal_2');
+        } else if (timeElapsed < 1000) {
+            this.setSprite('heal_3');
+        } else if (timeElapsed < 1200) {
+            this.setSprite('heal_4');
         } else {
             this.usedPotion = undefined;
             this.stateLock = false;

@@ -14,7 +14,7 @@ export const loadAssets = async () => {
 const loadBackgroundSprites = async () => {
     let path = '../assets/background';
     let names = [
-        'ground0', 'ground1', 'archway0', 'wall0'
+        'ground0', 'ground1', 'archway0', 'wall0', 'totem_1', 'totem_2'
     ];
     names.forEach((name) => {
         let img = new Image();
@@ -30,7 +30,8 @@ const loadPlayerSprites = async () => {
         'attack_1', 'attack_2', 'attack_3', 
         'idle', 
         'move_1', 'move_2', 'move_3', 'move_4',
-        'strafe_1', 'strafe_2', 'strafe_3'
+        'strafe_1', 'strafe_2', 'strafe_3',
+        'heal_1', 'heal_2', 'heal_3', 'heal_4'
     ];
     dirs.forEach((dir) => {
         playerSprites[dir] = {};
