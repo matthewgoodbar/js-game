@@ -1,6 +1,7 @@
 import Game from "./game.js";
 import { loadAssets } from "./assets.js";
 
+console.log(document.currentScript.src);
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext('2d');
 const screenSizes = {
