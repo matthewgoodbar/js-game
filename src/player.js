@@ -25,10 +25,23 @@ export default class Player extends Actor {
         this.strafe = false;
         this.potions = 3;
         this.killCount = 0;
+
+        this.states = {
+            "idle": ["attack", "moving", "death", "heal"],
+            "attack": ["idle", "death"],
+            "moving": ["idle", "attack", "death", "heal"],
+            "death": [],
+            "heal": ["idle", "death"]
+        };
+    }
+
+    blocking() {
+        return (this.state === 'idle' || this.state === 'moving') && this.strafe;
     }
 
     tick(dt) {
         super.tick(dt);
+        if (this.state === "heal") this.heal();
         if (this.strafe) {
             this.speed = this.unscaledSpeed * 0.3;
         }
@@ -40,6 +53,24 @@ export default class Player extends Actor {
         this.setSprite('idle');
         if (this.strafe) {
             this.setSprite('strafe_1');
+        }
+    }
+
+    heal() {
+        this.stateLock = true;
+        this.setSprite('idle');
+        let timeElapsed = Date.now() - this.timeEnteredState;
+        if (timeElapsed < 200) {
+
+        } else if (timeElapsed < 400) {
+            if (!this.usedPotion){
+                this.usedPotion = true;
+                this.usePotion();
+            }
+        } else {
+            this.usedPotion = undefined;
+            this.stateLock = false;
+            this.changeState("idle");
         }
     }
 
@@ -69,6 +100,18 @@ export default class Player extends Actor {
     hit(hb) {
         super.hit(hb);
         if (this.health <= 0) this.scene.endGame();
+    }
+
+    blockCheck(hb) {
+        if (this.blocking()){ //Player is blocking
+            if (utils.blockedFromDir(this.dir, hb.dir)){ //block is successful
+                this.addHitEffect(hb, 'block');
+            } else { //block is unsuccessful
+                super.blockCheck(hb);
+            }
+        } else { //Player is not blocking
+            super.blockCheck(hb);
+        }
     }
 
     _hit(dt) {

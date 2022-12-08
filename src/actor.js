@@ -74,9 +74,13 @@ export default class Actor extends Sprite {
         if (!this.hitBy) { //initial hit frame
             this.hitBy = hb;
             this.timeHit = Date.now();
-            if (this.health > 0) this.health--;
-            this.addHitEffect(hb, 'hit');
+            this.blockCheck(hb);
         }
+    }
+    
+    blockCheck(hb) { //overridden in Player
+        if (this.health > 0) this.health--;
+        this.addHitEffect(hb, 'hit');
     }
 
     addHitEffect(hb, sprite) {
@@ -132,7 +136,7 @@ export default class Actor extends Sprite {
         this.pos.y += correction.y;
     }
 
-    disperse() {
+    disperse() { //overridden in Enemy
 
     }
 }

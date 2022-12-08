@@ -23,7 +23,6 @@ export default class Scene {
         this.player = new Player(this.center, this);
         this.foregroundStatic = [];
         this.floorTileOffset = {x:100,y:57};
-        this.roundStart = false;
 
         // this.addObjects();
         this.addBackgroundStatic();
@@ -128,6 +127,9 @@ export default class Scene {
             this.player.strafe = true;
         } else {
             this.player.strafe = false;
+        }
+        if (keyCodes.includes(79) && this.player.potions > 0) { //79 = 'o'
+            this.player.changeState("heal");
         }
     }
 

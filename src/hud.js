@@ -37,9 +37,9 @@ export default class Hud {
     }
 
     _gameOverScreen(ctx) {
-        let dim = this.dim;
-        let leftJust = 40;
+        this._shadowOverlay(ctx);
         
+        let dim = this.dim;
         let fontSize = 80;
         ctx.font = `italic ${fontSize}px Times New Roman`;
         ctx.textAlign = "center";
@@ -74,5 +74,13 @@ export default class Hud {
         ctx.strokeText(restartFlavor, dim.x / 2, fixY + 160);
         ctx.fillText(restartFlavor, dim.x / 2, fixY + 160);
 
+    }
+
+    _shadowOverlay(ctx) {
+        let dim = this.dim;
+        ctx.globalAlpha = 0.5;
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, dim.x, dim.y);
+        ctx.globalAlpha = 1;
     }
 }
