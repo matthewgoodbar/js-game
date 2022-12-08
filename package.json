@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "my first js game",
   "scripts": {
-    "start": "webpack --watch --mode=development"
+    "start": "webpack --watch --mode=development",
+    "build": "webpack --mode=production"
   },
   "keywords": [],
   "author": "github.com/matthewgoodbar",
