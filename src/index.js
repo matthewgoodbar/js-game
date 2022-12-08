@@ -8,18 +8,32 @@ const screenSizes = {
     "m": [800, 600],
     "l": [960, 720],
     "s169": [800, 450],
+    "m169": [1040, 585],
     "l169": [1280, 720]
 };
 const setSize = (size) => {
     canvas.width = screenSizes[size][0];
     canvas.height = screenSizes[size][1];
 }
-
-setSize("l169");
+let screenSize = "l169";
+setSize(screenSize);
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+let game;
 (async () => {
     await loadAssets();
-    const game = new Game(canvas);
+    game = new Game(canvas);
 })();
+
+let resizeButton = document.getElementById("resize-button");
+resizeButton.addEventListener('click', () => {
+    console.log('resize button clicked');
+    switch (screenSize) {
+        case 's169': screenSize = 'm169'; break;
+        case 'm169': screenSize = 'l169'; break;
+        case 'l169': screenSize = 's169'; break;
+    }
+    setSize(screenSize);
+    game = new Game(canvas);
+})
