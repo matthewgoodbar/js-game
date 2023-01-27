@@ -14,7 +14,7 @@ const screenSizes = {
 const setSize = (size) => {
     canvas.width = screenSizes[size][0];
     canvas.height = screenSizes[size][1];
-}
+};
 let screenSize = "l169";
 setSize(screenSize);
 ctx.fillStyle = "black";
@@ -28,7 +28,6 @@ let game;
 
 let resizeButton = document.getElementById("resize-button");
 resizeButton.addEventListener('click', () => {
-    console.log('resize button clicked');
     switch (screenSize) {
         case 's169': screenSize = 'm169'; break;
         case 'm169': screenSize = 'l169'; break;
@@ -36,4 +35,4 @@ resizeButton.addEventListener('click', () => {
     }
     setSize(screenSize);
     game = new Game(canvas);
-})
+});
