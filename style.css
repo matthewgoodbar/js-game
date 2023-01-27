@@ -23,6 +23,20 @@ ul {
     height: 100%;
 }
 
+#canvas-plus-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#resize-button {
+    cursor: pointer;
+    background: none;
+    background-color: black;
+    color: white;
+    padding: 2px;
+}
+
 .help-text {
     font-family: 'Times New Roman', Times, serif;
     margin: 40px;
