@@ -9,8 +9,9 @@ import Hud from "./hud.js";
 import Totem from "./totem.js";
 
 export default class Scene {
-    constructor(game) {
+    constructor(game, options) {
         this.game = game;
+        this.options = options;
         this.ctx = this.game.ctx;
         this.center = game.center;
         this.cameraDir = 0;
@@ -48,6 +49,7 @@ export default class Scene {
         if (this.gameOver) {
             let keyCodes = key.getPressedKeyCodes();
             if (keyCodes.includes(82)) {
+                this.setScore();
                 this.game.restart();
             }
             this.drawObjects(this.ctx);
@@ -81,6 +83,22 @@ export default class Scene {
     endGame() {
         this.gameOver = true;
         clearInterval(this.spawnInterval);
+    }
+
+    setScore() {
+        let scoreKeys = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+        let scores = [];
+        scoreKeys.forEach(key => {
+            let pastScore = localStorage.getItem(key);
+            if (pastScore) scores.push(parseInt(pastScore));
+        });
+        scores.push(this.score);
+        scores.sort((a,b) => b - a);
+        scores = scores.slice(0, 10);
+        for (let i = 0; i < scores.length; i++) {
+            localStorage.setItem(scoreKeys[i], scores[i]);
+        }
+        this.options.scoreBoardCallback();
     }
 
     addGameObject(obj) {

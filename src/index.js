@@ -20,10 +20,37 @@ setSize(screenSize);
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+const setScoreBoard = () => {
+    const scoreBoard = document.getElementById("scoreboard");
+    while (scoreBoard.firstChild) {
+        scoreBoard.removeChild(scoreBoard.firstChild);
+    }
+    let scoreKeys = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+    if (localStorage.getItem('s0')) {
+        for (let i = 0; i < 10; i++) {
+            let score = localStorage.getItem(scoreKeys[i]);
+            if (score) {
+                if (i === 0) score = "~~~" + score + "~~~"
+                const scoreText = document.createTextNode(score);
+                const scoreBoardEntry = document.createElement("p");
+                scoreBoardEntry.appendChild(scoreText);
+                scoreBoard.appendChild(scoreBoardEntry);
+            }
+        }
+    }
+    else {
+        const noScoreText = document.createTextNode("No hi score yet!");
+        const noScoreTag = document.createElement("p");
+        noScoreTag.appendChild(noScoreText);
+        scoreBoard.appendChild(noScoreTag);
+    }
+};
+let options = { scoreBoardCallback: setScoreBoard }
+
 let game;
 (async () => {
     await loadAssets();
-    game = new Game(canvas);
+    game = new Game(canvas, options);
 })();
 
 let resizeButton = document.getElementById("resize-button");
@@ -34,5 +61,7 @@ resizeButton.addEventListener('click', () => {
         case 'l169': screenSize = 's169'; break;
     }
     setSize(screenSize);
-    game = new Game(canvas);
+    game = new Game(canvas, options);
 });
+
+setScoreBoard();

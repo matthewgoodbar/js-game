@@ -1,13 +1,14 @@
 import Scene from "./scene.js";
 
 export default class Game {
-    constructor(canvas) {
+    constructor(canvas, options) {
         this.canvas = canvas;
+        this.options = options;
         this.ctx = canvas.getContext('2d');
         this.dimx = canvas.width;
         this.dimy = canvas.height;
         this.center = {x: this.dimx / 2, y: this.dimy / 2};
-        this.scene = new Scene(this);
+        this.scene = new Scene(this, options);
         this.prevTime = Date.now();
         this.dt = 0;
         this.run();
@@ -23,6 +24,6 @@ export default class Game {
     }
 
     restart() {
-        this.scene = new Scene(this);
+        this.scene = new Scene(this, this.options);
     }
 }

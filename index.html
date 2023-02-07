@@ -17,28 +17,36 @@
         <h1>CATACOMB</h1>
     </div>
     <div id="canvas-container">
-        <div class="help-text">
-            <h2>Controls:</h2>
-            <ul>
-                <li>WASD - Move</li>
-                <li>J - Attack</li>
-                <li>Hold I - Defend</li>
-                <li>O - Use Potion</li>
-            </ul>
+        <div class="side-panel">
+            <div class="help-text">
+                <h2>Controls:</h2>
+                <ul>
+                    <li>WASD - Move</li>
+                    <li>J - Attack</li>
+                    <li>Hold I - Defend</li>
+                    <li>O - Use Potion</li>
+                </ul>
+            </div>
+            <div class="help-text">
+                <h2>Tips:</h2>
+                <ul>
+                    <li>Hit the pedestal to start!</li>
+                    <li>Don't get surrounded!</li>
+                    <li>Make use of your shield!</li>
+                    <li>Potions heal 3hp!</li>
+                </ul>
+            </div>
         </div>
         <div id="canvas-plus-button">
             <button id="resize-button">Resize</button>
             <canvas id="game-canvas"></canvas>
         </div>
-        <div class="help-text">
-            <h2>Tips:</h2>
-            <ul>
-                <li>Hit the pedestal to start!</li>
-                <li>Don't get surrounded!</li>
-                <li>Make use of your shield!</li>
-                <li>Potions heal 3hp!</li>
-            </ul>
-            <br/>
+        <div class="side-panel">
+            <div class="help-text">
+                <h2>Your Hi-Scores</h2>
+                <div id="scoreboard">
+                </div>
+            </div>
         </div>
     </div>
 </body>
