@@ -78,6 +78,16 @@ ul {
     font-size: 24px;
 }
 
+#about-page {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.about-text {
+
+}
+
 #title {
     display: flex;
     margin: 20px;
